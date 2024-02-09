@@ -5,16 +5,31 @@ For the basic task, you only need to consider the “minimal” enoding
 of puzzles as CNF formulas (described in class).
 
 """
+
 import argparse
 
+
 def main(args):
-    read_sudoku_puzzle(argv)
+    sudoku = read_sudoku_puzzle(args.puzzle)
 
-    return
+    for row in sudoku:
+        print(row)
 
 
-if __name__ == '__main__':
+def read_sudoku_puzzle(file_path):
+    puzzle = []
+    with open(file_path, "r") as file:
+        for line in file:
+            row = [int(num) for num in line.strip().split()]
+            puzzle.append(row)
+    return puzzle
+
+
+# Example usage:
+
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('puzzle', type=str)
+    parser.add_argument("puzzle", type=str)
     args = parser.parse_args()
     main(args)
