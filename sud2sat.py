@@ -19,9 +19,17 @@ def main(args):
 def read_sudoku_puzzle(file_path):
     puzzle = []
     with open(file_path, "r") as file:
-        for line in file:
-            row = [int(num) for num in line.strip().split()]
-            puzzle.append(row)
+        data = (
+            file.read()
+            .strip()
+            .replace("\n", "")
+            .replace(" ", "")
+            .replace(".", "0")
+            .replace("*", "0")
+        )
+        rows = [data[i : i + 9] for i in range(0, len(data), 9)]
+        for row in rows:
+            puzzle.append([int(num) for num in row])
     return puzzle
 
 
