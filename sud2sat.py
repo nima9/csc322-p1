@@ -5,3 +5,16 @@ For the basic task, you only need to consider the “minimal” enoding
 of puzzles as CNF formulas (described in class).
 
 """
+import argparse
+
+def main(args):
+    read_sudoku_puzzle(argv)
+
+    return
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('puzzle', type=str)
+    args = parser.parse_args()
+    main(args)
