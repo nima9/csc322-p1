@@ -26,6 +26,7 @@ def read_sudoku_puzzle(file_path):
             .replace(" ", "")
             .replace(".", "0")
             .replace("*", "0")
+            .replace("?", "0")
         )
         rows = [data[i : i + 9] for i in range(0, len(data), 9)]
         for row in rows:
