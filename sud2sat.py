@@ -6,20 +6,55 @@ of puzzles as CNF formulas (described in class).
 
 """
 
+import argparse
+
+
+def main(args):
+    sudoku = read_sudoku_puzzle(args.puzzle)
+
+    for row in sudoku:
+        print(row)
+    
+    sat_challenge = write_dimacs(sudoku)
+
+
 
 def read_sudoku_puzzle(file_path):
     puzzle = []
     with open(file_path, "r") as file:
-        for line in file:
-            row = [int(num) for num in line.strip().split()]
-            puzzle.append(row)
-        # print(puzzle)
-
+        data = (
+            file.read()
+            .strip()
+            .replace("\n", "")
+            .replace(" ", "")
+            .replace(".", "0")
+            .replace("*", "0")
+            .replace("?", "0")
+        )
+        rows = [data[i : i + 9] for i in range(0, len(data), 9)]
+        for row in rows:
+            puzzle.append([int(num) for num in row])
     return puzzle
 
+def write_dimacs_string(puzzle):
+    clauses = []
+
+    # use sudoku puzzle to fill clauses with lists of digits to be connected with disjunction
+
+    dimacs_string = "p cnf 9 " + str(len(clauses))
+    for clause in clauses:
+        dimacs_string += "\n"
+        for digit in clause:
+            dimacs_string += digit
+        dimacs_string += "0"
+
+    return dimacs_string
 
 # Example usage:
-file_path = "ex1.txt"
-puzzle = read_sudoku_puzzle(file_path)
-for row in puzzle:
-    print(row)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("puzzle", type=str)
+    args = parser.parse_args()
+    main(args)
