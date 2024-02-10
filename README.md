@@ -5,5 +5,6 @@
 ex:
 
 ```
-python sud2sat.py ex1.txt
+python sud2sat.py <inputfile.txt> <outputfile.cnf>
+python sat2sud.py <inputSat.txt> <outputfile.txt>
 ```

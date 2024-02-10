@@ -16,7 +16,95 @@ def main(args):
                 'clauses': [] # 2d array of ints each int reps a variable ie 1 = x_1 terminate each clause line with 0
                 }
 
+    solution['num_variables'] = len(sudoku)**3
+
+    encoding = at_least_one_num(9)
+
+    encoding.extend(once_in_every_row(9))
+
+    encoding.extend(once_in_every_column(9))
+
+    encoding.extend(sub_grid_3x3(9))
+
+    encoding.extend(add_puzzle_constraints(sudoku))
+    solution['clauses'] = encoding
+    solution['num_clauses'] = len(encoding)
+
     dimacs_format(solution, args.output_file)
+
+'''
+---Notes---
+ex: size 2x2 sudoku puzzle
+(~a or ~b) and (~c or ~d) = [[-1, -2], [-3, -4]]
+domain [1,2] //meaning, the value of each cell can be 1 or 2
+variables [111, 112, 121, 122, 211, 212, 221, 222] //total number of cells
+rows = [[-111,-121], [-112,-122], [-211,-212], [-221,-222]]
+columns = [[],[]]
+'''
+def add_puzzle_constraints(sudoku):
+    clauses = []
+    for row in range(len(sudoku)):
+        for column in range(len(sudoku[row])):
+            if sudoku[row][column] != 0:
+                clauses.append([do_the_math(row+1, column+1, sudoku[row][column], len(sudoku))])
+    return clauses
+
+
+
+
+#encoding the rules for the 3x3 sub-grids of a 9x9 sudoku puzzle
+#if puzzle is 9x9, size = 9 .      default value for parameter 'size' is 9
+def sub_grid_3x3(size=9): 
+    # hardcoded for 9x9 sudoku puzzle
+    clauses = []
+    for k in range(1,9+1):
+        for a in range(0,2+1):
+            for b in range(0,2+1):
+                for u in range(1,3+1):
+                    for v in range(0,2+1):
+                        for w in range(v+1,3+1):
+                            clauses.append([-1*do_the_math(3*a+u, 3*b+v, k, size=9), -1*do_the_math(3*a+u,3*b+w, k, size=9)])
+                        for w in range(u+1, 3+1):
+                            for t in range(1, 3+1):
+                                clauses.append([-1*do_the_math(3*a+u, 3*b+v,k, size=9), -1*do_the_math(3*a+w, 3*b+t, k, size=9)])
+    return clauses
+#ex: clauses[0][0] will equal: -1*do_the_math(1,1,1,9) = -1
+
+
+
+def once_in_every_column(size):
+    clauses = []
+    for j in range(1,size+1):
+        for k in range(1,size+1):
+            for i in range(1,size): #i=1 and 8
+                for l in range(i+1,size+1):
+                    clauses.append([-1*do_the_math(i,j,k,size), -1*do_the_math(l,j,k,size)])
+    return clauses
+
+def once_in_every_row(size):
+    clauses = []
+    for i in range(1,size+1):
+        for k in range(1,size+1):
+            for j in range(1,size): # j=1 and 8
+                for l in range(j+1,size+1):
+                    clauses.append([-1*do_the_math(i,j,k,size), -1*do_the_math(i,l,k,size)])
+    return clauses
+
+
+def at_least_one_num(size):
+    clauses = []
+    for i in range(1,size+1):
+        for j in range(1,size+1):
+            clause = []
+            for k in range(1,size+1):
+                clause.append(do_the_math(i,j,k, size))
+            clauses.append(clause)
+    return clauses
+
+#coverts a row, a column, and a integer to a single variable.
+def do_the_math(i,j,k, size):
+    # generalize later
+    return size**2*(i-1) + size*(j-1) + k
 
 
 def dimacs_format(solution, output_file):
@@ -47,7 +135,7 @@ def read_sudoku_puzzle(file_path):
             .replace("*", "0")
             .replace("?", "0")
         )
-        rows = [data[i : i + 9] for i in range(0, len(data), 9)]
+        rows = [data[i : i + 9] for i in range(0, len(data), 9)] # maybe change that are all problems going to be 9 x 9
         for row in rows:
             puzzle.append([int(num) for num in row])
     return puzzle
