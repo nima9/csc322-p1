@@ -6,6 +6,7 @@ of puzzles as CNF formulas (described in class).
 
 """
 import argparse
+import os
 
 
 def main(args):
@@ -18,20 +19,44 @@ def main(args):
 
     solution['num_variables'] = len(sudoku)**3
 
-    encoding = at_least_one_num(9)
-
-    encoding.extend(max_once_in_every_row(9))
-
-    encoding.extend(max_once_in_every_column(9))
-
-    encoding.extend(max_once_sub_grid_3x3(9))
-
+    encoding = get_minimal_encoding(len(sudoku))
     encoding.extend(add_puzzle_constraints(sudoku))
+
     solution['clauses'] = encoding
     solution['num_clauses'] = len(encoding)
-
     dimacs_format(solution, args.output_file)
 
+
+def get_minimal_encoding(size):
+    prev_encoding_path = ""
+    # if path exists, read and return its contents
+    # else
+    encoding = at_least_one_num(size)
+    encoding.extend(max_once_in_every_row(size))
+    encoding.extend(max_once_in_every_column(size))
+    encoding.extend(max_once_sub_grid_3x3(size))
+    # write encoding to path
+    return encoding
+
+def get_efficient_encoding(size):
+    prev_encoding_path = ""
+    # if path exists, read and return its contents
+    # else
+    encoding = get_minimal_encoding(size)
+    encoding.extend(at_most_one_num(size))
+    # write encoding to path
+    return encoding
+
+def get_extended_encoding(size):
+    prev_encoding_path = ""
+    # if path exists, read and return its contents
+    # else
+    encoding = get_efficient_encoding(size)
+    encoding.extend(min_once_in_every_row(size))
+    encoding.extend(min_once_in_every_column(size))
+    encoding.extend(min_once_sub_grid_3x3(size))
+    # write encoding to path
+    return encoding
 
 #converts a row, a column, and a integer to a single variable.
 def do_the_math(i,j,k, size):
@@ -47,7 +72,7 @@ def dimacs_format(solution, output_file):
         1 2 -3
         4 5 6
         which represents
-        (x1 | x2 | x3) & (x4 | x5 | x6)
+        (x1 | x2 | ~x3) & (x4 | x5 | x6)
         '''
         for clause in solution['clauses']:
             file.write(f"{' '.join(map(str,clause))}\n")
