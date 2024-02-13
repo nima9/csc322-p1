@@ -11,10 +11,22 @@ import argparse
 
 def main(args):
     sat_solution = read_sat_file(args.solution)
-
-    sudoku = [[1,2,3,1,2,3],[4,5,6,4,5,6]] # 2d array of ints representing a solved sudoku puzzle
+    sudoku = sat_to_sudoku(sat_solution['variables'])
     sudoku_format(sudoku, args.output_file)
 
+
+def sat_to_sudoku(variables):
+    size = int(len(variables) ** (1/3))
+    sudoku = [[[0] for _ in range(size)] for _ in range(size)]
+    
+    for i in range(size):
+        for j in range(size):
+            for k in range(size):
+                index = i * size ** 2 + j * size + k
+                if int(variables[index]) > 0:
+                    sudoku[i][j] = k + 1
+                    break
+    return sudoku
 
 def sudoku_format(sudoku, output_file):
     with open(output_file, "w") as file:
