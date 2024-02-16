@@ -21,11 +21,14 @@ def sat_to_sudoku(variables):
     
     for i in range(size):
         for j in range(size):
+            # given some cell, determine which number goes there
             for k in range(size):
                 index = i * size ** 2 + j * size + k
+
+                # if k+1 goes in the cell, add it to list, then go to the next cell
                 if int(variables[index]) > 0:
                     sudoku[i][j] = k + 1
-                    break
+                    break # skip to the next cell
     return sudoku
 
 def sudoku_format(sudoku, output_file):
