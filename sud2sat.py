@@ -1,12 +1,11 @@
 """
 sud2sat reads a single Sudoku puzzle (in some specified text format) 
 and converts it to a CNF formula suitable for input to the miniSAT SAT solver (described below.) 
-For the basic task, you only need to consider the minimal enoding 
+For the basic task, you only need to consider the minimal encoding 
 of puzzles as CNF formulas (described in class).
 
 """
 import argparse
-import os
 
 
 def main(args):
@@ -75,7 +74,7 @@ def dimacs_format(solution, output_file):
         (x1 | x2 | ~x3) & (x4 | x5 | x6)
         '''
         for clause in solution['clauses']:
-            file.write(f"{' '.join(map(str,clause))}\n")
+            file.write(f"{' '.join(map(str,clause))} 0\n")
 
 def read_sudoku_puzzle(file_path):
     puzzle = []
@@ -151,7 +150,7 @@ def max_once_sub_grid_3x3(size=9):
         for a in range(0,2+1):
             for b in range(0,2+1):
                 for u in range(1,3+1):
-                    for v in range(0,2+1):
+                    for v in range(1,3+1):
                         for w in range(v+1,3+1):
                             clauses.append([-1*do_the_math(3*a+u, 3*b+v, k, size=9), -1*do_the_math(3*a+u,3*b+w, k, size=9)])
                         for w in range(u+1, 3+1):
@@ -200,9 +199,11 @@ def min_once_sub_grid_3x3(size=9):
     for k in range(1,9+1):
         for a in range(0,2+1):
             for b in range(0,2+1):
+                clause = []
                 for u in range(1,3+1):
                     for v in range(1,3+1):
-                        clauses.append([do_the_math(3*a+u, 3*b+v, k, size=9)])
+                        clause.append([do_the_math(3*a+u, 3*b+v, k, size=9)])
+                clauses.append(clause)
     return clauses
 
 
