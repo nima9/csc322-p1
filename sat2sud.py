@@ -11,11 +11,18 @@ import argparse
 
 def main(args):
     sat_solution = read_sat_file(args.solution)
-    sudoku = sat_to_sudoku(sat_solution['variables'])
-    sudoku_format(sudoku, args.output_file)
+    if sat_solution["SAT"]:
+        sudoku = sat_to_sudoku(sat_solution['variables'])
+        sudoku_format(sudoku, args.output_file)
+    else:
+        print("Passed unsatisfiable problem output file will be empty")
+        sudoku_format("", args.output_file)
 
 
 def sat_to_sudoku(variables):
+    '''
+
+    '''
     size = int(len(variables) ** (1/3))
     sudoku = [[[0] for _ in range(size)] for _ in range(size)]
     
@@ -31,7 +38,15 @@ def sat_to_sudoku(variables):
                     break # skip to the next cell
     return sudoku
 
+
 def sudoku_format(sudoku, output_file):
+    '''
+    Translate the variables from miniSAT to sudoku format ie
+    123 456 789
+    987 123 456 
+    ect ...
+
+    '''
     with open(output_file, "w") as file:
         '''
         write each sudoku line to output file 
@@ -51,6 +66,9 @@ def sudoku_format(sudoku, output_file):
 
 
 def read_sat_file(file_path):
+    '''
+    read the provided sat file and place the variables represented as ints into a dict
+    '''
     sat_solution = {
                 'SAT': 0, # bool representing if satisfiable of sudoku
                 'variables': [], # ls[int] representing variables
@@ -63,9 +81,6 @@ def read_sat_file(file_path):
             sat_solution['variables'] = line.split(' ')
     
     return sat_solution
-
-
-# Example usage:
 
 
 if __name__ == "__main__":
