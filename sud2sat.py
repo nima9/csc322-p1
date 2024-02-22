@@ -18,7 +18,12 @@ def main(args):
 
     solution['num_variables'] = len(sudoku)**3
 
-    encoding = get_minimal_encoding(len(sudoku))
+    if args.encoding == "extended":
+        encoding = get_extended_encoding(len(sudoku))
+    elif args.encoding == "efficient":
+        encoding = get_efficient_encoding(len(sudoku))
+    else:
+        encoding = get_minimal_encoding(len(sudoku))
     encoding.extend(add_puzzle_constraints(sudoku))
 
     solution['clauses'] = encoding
@@ -211,5 +216,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("puzzle", type=str)
     parser.add_argument("output_file", type=str)
+    parser.add_argument("--encoding", type=str, default="minimal")
     args = parser.parse_args()
     main(args)
