@@ -18,7 +18,7 @@ def main(args):
 
     solution['num_variables'] = len(sudoku)**3
 
-    encoding = get_minimal_encoding(len(sudoku))
+    encoding = get_extended_encoding(len(sudoku))
     encoding.extend(add_puzzle_constraints(sudoku))
 
     solution['clauses'] = encoding
@@ -31,6 +31,22 @@ def get_minimal_encoding(size):
     encoding.extend(max_once_in_every_row(size))
     encoding.extend(max_once_in_every_column(size))
     encoding.extend(max_once_sub_grid_3x3(size))
+    # write encoding to path
+    return encoding
+
+
+def get_efficient_encoding(size):
+    encoding = get_minimal_encoding(size)
+    encoding.extend(at_most_one_num(size))
+    # write encoding to path
+    return encoding
+
+
+def get_extended_encoding(size):
+    encoding = get_efficient_encoding(size)
+    encoding.extend(min_once_in_every_row(size))
+    encoding.extend(min_once_in_every_column(size))
+    encoding.extend(min_once_sub_grid_3x3(size))
     # write encoding to path
     return encoding
 
@@ -141,7 +157,58 @@ def max_once_sub_grid_3x3(size=9):
                             for t in range(1, 3+1):
                                 clauses.append([-1*do_the_math(3*a+u, 3*b+v,k, size=9), -1*do_the_math(3*a+w, 3*b+t, k, size=9)])
     return clauses
-# ex: clauses[0][0] will equal: -1*do_the_math(1,1,1,9) = -1
+#ex: clauses[0][0] will equal: -1*do_the_math(1,1,1,9) = -1
+
+
+# Efficient Encoding
+# ------------------
+def at_most_one_num(size):
+    clauses = []
+    for i in range(1,size+1):
+        for j in range(1,size+1):
+            for k in range(1,size): # k goes from 1 to 8
+                for l in range(k+1,size+1):
+                    clauses.append([-1*do_the_math(i,j,k, size),-1*do_the_math(i,j,l, size)])
+    return clauses
+
+
+# Extended Encoding
+# -----------------
+def min_once_in_every_row(size):
+    clauses = []
+    for i in range(1,size+1):
+        for k in range(1,size+1):
+            clause = []
+            for j in range(1,size+1):
+                clause.append(do_the_math(i,j,k,size))
+            clauses.append(clause)
+    return clauses
+
+
+def min_once_in_every_column(size):
+    clauses = []
+    for j in range(1,size+1):
+        for k in range(1,size+1):
+            clause = []
+            for i in range(1,size+1):
+                clause.append(do_the_math(i,j,k,size))
+            clauses.append(clause)
+    return clauses
+
+
+def min_once_sub_grid_3x3(size=9): 
+    # hardcoded for 9x9 sudoku puzzle
+    clauses = []
+    for k in range(1,9+1):
+        for a in range(0,2+1):
+            for b in range(0,2+1):
+                clause = []
+                for u in range(1,3+1):
+                    for v in range(1,3+1):
+                        clause.append(do_the_math(3*a+u, 3*b+v, k, size=9))
+                clauses.append(clause)
+    return clauses
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
