@@ -184,7 +184,7 @@ def min_once_in_every_row(size):
         for k in range(1,size+1):
             clause = []
             for j in range(1,size+1):
-                clause.append([do_the_math(i,j,k,size)])
+                clause.append(do_the_math(i,j,k,size))
             clauses.append(clause)
     return clauses
 
@@ -194,7 +194,7 @@ def min_once_in_every_column(size):
         for k in range(1,size+1):
             clause = []
             for i in range(1,size+1):
-                clause.append([do_the_math(i,j,k,size)])
+                clause.append(do_the_math(i,j,k,size))
             clauses.append(clause)
     return clauses
 
@@ -207,7 +207,7 @@ def min_once_sub_grid_3x3(size=9):
                 clause = []
                 for u in range(1,3+1):
                     for v in range(1,3+1):
-                        clause.append([do_the_math(3*a+u, 3*b+v, k, size=9)])
+                        clause.append(do_the_math(3*a+u, 3*b+v, k, size=9))
                 clauses.append(clause)
     return clauses
 
