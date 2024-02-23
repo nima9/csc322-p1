@@ -43,12 +43,13 @@ def do_the_math(i, j, k, size):
     return size**2 * (i - 1) + size * (j - 1) + k
 
 
-def dimacs_format(solution, output_file):
+def dimacs_format(solution, output_file):  # dimacs_format is a type of CNF format
     with open(output_file, "w") as file:
         # set up file header
         file.write(f"p cnf {solution['num_variables']} {solution['num_clauses']}\n")
 
         """ 
+        ex:
         write each clause line ie [[1,2,-3],[4,5,6]] is
         1 2 -3
         4 5 6
