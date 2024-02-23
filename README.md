@@ -1,7 +1,9 @@
 # Project 1 for CSC 322 Class (with Alex, Carter, and Nima - Group 15)
 
 ## Student Names and IDs for Group 15:
-### Nima Mohajeri - V00857216
+
+- Carter Cranston - V01000607
+- Nima Mohajeri   - V00857216
 
 
 <br/>
@@ -9,7 +11,7 @@
 
 
 
-<details><summary>How to run "sud2sat.py"</summary>
+<details><summary>How to run "sud2sat.py (for Basic task)"</summary>
 
 ##### To run the `sud2sat.py` in the UVIC Linux server, the command will be:
 
@@ -21,7 +23,7 @@ python3 sud2sat.py <inputfile.txt> <outputfile.cnf>
 
 
 
-<details><summary>How to run "sat2sud.py"</summary>
+<details><summary>How to run "sat2sud.py (For Basic and all Extended Tasks)"</summary>
 
 ##### To run the `sat2sud.py` in the UVIC Linux server, the command will be:
 
