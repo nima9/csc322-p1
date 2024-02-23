@@ -4,7 +4,7 @@
 ### Nima Mohajeri - V00857216
 
 
-<br/><br/>
+<br/>
 
 
 
@@ -65,3 +65,17 @@ python3 sud2sat2.py <inputfile.txt> <outputfile.cnf>
 python3 sud2sat3.py <inputfile.txt> <outputfile.cnf>
 ```
 </details>
+
+<br/><br/>
+
+## Contents of `subid` directory:
+#### `subid` will contain the following files:
+- `sud2sat.py`
+- `sat2sud.py`
+- `sud2sat1.py`
+- `sud2sat2.py`
+- `sud2sat3.py`
+- `README.md` (this file)
+
+
+
