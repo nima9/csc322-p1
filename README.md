@@ -2,8 +2,9 @@
 
 ## Student Names and IDs for Group 15:
 
-- Carter Cranston - V01000607
-- Nima Mohajeri   - V00857216
+- Alexander Lambert - V00956639
+- Carter Cranston   - V01000607
+- Nima Mohajeri     - V00857216
 
 
 <br/>
