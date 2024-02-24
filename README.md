@@ -60,7 +60,7 @@ python3 sud2sat2.py <inputfile.txt> <outputfile.cnf>
 
 
 
-<details><summary>How to run "sud2sat3.py" (Extending Coding)</summary>
+<details><summary>How to run "sud2sat3.py" (Extending Encoding)</summary>
 
 
 ##### extending coding = 
