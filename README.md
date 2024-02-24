@@ -45,7 +45,7 @@ python3 sud2sat1.py <inputfile.txt> <outputfile.cnf>
 
 
 
-<details><summary>How to run "sud2sat2.py" (Extended Task 2)</summary>
+<details><summary>How to run "sud2sat2.py" (Efficient Encoding)</summary>
 
 ##### efficient encoding = minimal encoding + at_most_one_num
 
@@ -59,7 +59,7 @@ python3 sud2sat2.py <inputfile.txt> <outputfile.cnf>
 
 
 
-<details><summary>How to run "sud2sat3.py" (Extended Task 3)</summary>
+<details><summary>How to run "sud2sat3.py" (Extending Coding)</summary>
 
 
 ##### extending coding = 
@@ -77,8 +77,8 @@ python3 sud2sat3.py <inputfile.txt> <outputfile.cnf>
 
 <br/><br/>
 
-## Contents of `subid` directory:
-#### `subid` will contain the following files:
+## Contents of `subid` folder:
+#### The `subid` folder will contain the following files:
 - `sat2sud.py`
 - `sud2sat.py`
 - `sud2sat1.py`
