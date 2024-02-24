@@ -85,6 +85,6 @@ python3 sud2sat3.py <inputfile.txt> <outputfile.cnf>
 - `sud2sat2.py`
 - `sud2sat3.py`
 - `README.md` (this file)
-
-
+- `Report_(general).pdf`
+- `Report_(performance evaluation).pdf`
 
