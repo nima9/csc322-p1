@@ -4,7 +4,7 @@ instance and converts it back into a solved Sudoku puzzle (as a text file, with 
 
 sudoku empty spaces can be 0, ., *, and ?
 
-This "sat2sud.py" is for the Basic Task
+This "sat2sud.py" is for 'extended encoding'
 
 """
 
