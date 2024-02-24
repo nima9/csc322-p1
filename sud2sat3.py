@@ -4,7 +4,11 @@ and converts it to a CNF formula suitable for input to the miniSAT SAT solver (d
 For the basic task, you only need to consider the minimal encoding 
 of puzzles as CNF formulas (described in class).
 
-This "sud2sat3.py" is for the Extended Task 3
+extending coding = efficent coding + min_once_in_every_row 
+                                    + min_once_in_every_column 
+                                    + min_once_sub_grid_3x3 
+
+This "sud2sat
 """
 
 import argparse
