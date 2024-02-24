@@ -4,7 +4,7 @@ and converts it to a CNF formula suitable for input to the miniSAT SAT solver (d
 For the basic task, you only need to consider the minimal encoding 
 of puzzles as CNF formulas (described in class).
 
-effiecnt encoding = minimal encoding + at_most_one_num
+efficient encoding = minimal encoding + at_most_one_num
 
 This "sud2sat2.py" is
 """

@@ -4,7 +4,7 @@ and converts it to a CNF formula suitable for input to the miniSAT SAT solver (d
 For the basic task, you only need to consider the minimal encoding 
 of puzzles as CNF formulas (described in class).
 
-extending coding = efficent coding + min_once_in_every_row 
+extending coding = efficient coding + min_once_in_every_row 
                                     + min_once_in_every_column 
                                     + min_once_sub_grid_3x3 
 
