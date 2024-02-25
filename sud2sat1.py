@@ -146,18 +146,18 @@ def max_once_in_every_column(size):
 # encoding the rules for the 3x3 sub-grids of a 9x9 sudoku puzzle
 # if puzzle is 9x9, size = 9 .      default value for parameter 'size' is 9
 def max_once_sub_grid_3x3(size=9):
-    # hardcoded for 9x9 sudoku puzzle
+    # now works for puzzles of any size
     clauses = []
-    for k in range(1, 9 + 1):
-        for a in range(0, 2 + 1):
-            for b in range(0, 2 + 1):
+    for k in range(1, size + 1):
+        for a in range(0, (size / 3 - 1) + 1):
+            for b in range(0, (size / 3 - 1) + 1):
                 for u in range(1, 3 + 1):
                     for v in range(1, 3 + 1):
                         for w in range(v + 1, 3 + 1):
                             clauses.append(
                                 [
-                                    -1 * do_the_math(3 * a + u, 3 * b + v, k, size=9),
-                                    -1 * do_the_math(3 * a + u, 3 * b + w, k, size=9),
+                                    -1 * do_the_math(3 * a + u, 3 * b + v, k, size),
+                                    -1 * do_the_math(3 * a + u, 3 * b + w, k, size),
                                 ]
                             )
                         for w in range(u + 1, 3 + 1):
@@ -165,9 +165,9 @@ def max_once_sub_grid_3x3(size=9):
                                 clauses.append(
                                     [
                                         -1
-                                        * do_the_math(3 * a + u, 3 * b + v, k, size=9),
+                                        * do_the_math(3 * a + u, 3 * b + v, k, size),
                                         -1
-                                        * do_the_math(3 * a + w, 3 * b + t, k, size=9),
+                                        * do_the_math(3 * a + w, 3 * b + t, k, size),
                                     ]
                                 )
     return clauses
