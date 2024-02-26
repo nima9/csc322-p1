@@ -11,12 +11,18 @@
 
 
 
-<details><summary>How to run "sat2sud.py (For Extended Encoding)"</summary>
+<details><summary>How to run "sat2sud.py". Every sat2sud.py
+file is the same however we have different iterations for
+each extended task to match the extended task requirements
+as requested in the project document.</summary>
 
 ##### To run the `sat2sud.py` in the UVIC Linux server, the command will be:
 
 ```
 python3 sat2sud.py <inputSat.txt> <outputfile.txt>
+python3 sat2sud1.py <inputSat.txt> <outputfile.txt>
+python3 sat2sud2.py <inputSat.txt> <outputfile.txt>
+python3 sat2sud3.py <inputSat.txt> <outputfile.txt>
 ```
 </details>
 
@@ -81,6 +87,9 @@ python3 sud2sat3.py <inputfile.txt> <outputfile.cnf>
 ## Contents of `subid` folder:
 #### The `subid` folder will contain the following files:
 - `sat2sud.py`
+- `sat2sud1.py`
+- `sat2sud2.py`
+- `sat2sud3.py`
 - `sud2sat.py`
 - `sud2sat1.py`
 - `sud2sat2.py`
