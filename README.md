@@ -23,7 +23,7 @@ python3 sat2sud.py <inputSat.txt> <outputfile.txt>
 
 
 
-<details><summary>How to run "sud2sat.py (for Basic task, regular inputs)"</summary>
+<details><summary>How to run "sud2sat.py (Basic task, regular inputs, minimal encoding, Sudoku size of 9)"</summary>
 
 ##### To run the `sud2sat.py` in the UVIC Linux server, the command will be:
 
@@ -34,7 +34,7 @@ python3 sud2sat.py <inputfile.txt> <outputfile.cnf>
 
 
 
-<details><summary>How to run "sud2sat1.py" (takes hard inputs, minimal encoding)</summary>
+<details><summary>How to run "sud2sat1.py" (takes hard inputs, minimal encoding, any Sudoku size)</summary>
 
 ##### To run the `sud2sat1.py` in the UVIC Linux server, the command will be:
 
