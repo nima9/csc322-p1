@@ -11,10 +11,9 @@
 
 
 
-<details><summary>How to run "sat2sud.py". Every sat2sud.py
-file is the same however we have different iterations for
-each extended task to match the extended task requirements
-as requested in the project document.</summary>
+<details><summary>How to run "sat2sud.py", "sat2sud1.py", "sat2sud2.py", "sat2sud3.py".</summary>
+
+#### Every sat2sud.py file is the same however we have different iterations for each extended task to match the extended task requirements as requested in the project document. The reason for multiple files is to follow the requirements based off the PDF.
 
 ##### To run the `sat2sud.py` in the UVIC Linux server, the command will be:
 
