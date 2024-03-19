@@ -11,7 +11,7 @@ def main(args):
 def parse_puzzle(puzzle_path):
     parse_encoding = {
                     'var': [], #list of all variables
-                    'const': [], # list of regions with no operator of form {'var': '', 'value': -1}
+                    'const': [], # list of regions with no operator of form {'var': '', 'value': -1, 'region': ''}
                     'row': [], # list of form {'line_one': -1,'line_two': -1,'vars': []}
                     'columns': [], # list of form {'line_one': -1,'line_two': -1,'vars': []}
                     'region': [], # list of form {'operator': '','equals': -1,'vars': [],'name': ''}
@@ -45,7 +45,7 @@ def parse_puzzle(puzzle_path):
                         if not str(new_region[1][-1:]).isdigit():
                             parse_encoding['region'].append({'operator': new_region[1][-1:],'equals': new_region[1][:-1],'vars': [new_var],'name': new_region[0]})
                         else:
-                            parse_encoding['const'].append({'var': new_var, 'value': new_region[1]})
+                            parse_encoding['const'].append({'var': new_var, 'value': new_region[1], 'region': new_region[0]})
                     else:
                         parse_encoding['region'][i]['vars'].append(new_var)
 
@@ -69,7 +69,7 @@ def write_ans(output_file, encoded):
         for column in encoded['columns']:
             file.write(f"(assert (distinct {format_list(column['vars'])} )) ; line {column['line_one']} {column['line_two']}\n") # need to figure out what the numbers mean in line ? ?
         for const in encoded['const']:
-            file.write(f"(assert (= {const['var']} {const['value']}))\n")
+            file.write(f"(assert (= {const['var']} {const['value']})) ; Region {const['region']}\n")
         for region in encoded['region']:
             if region['operator'] in  ["-", '/']:
                 file.write(f"(assert {format_order_operators(region['equals'], region['operator'], region['vars'])} ; Region {region['name']}\n") # needs more work needs combinatorial combination of region['vars']
