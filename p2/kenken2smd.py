@@ -1,5 +1,6 @@
 # required task
 import argparse
+from itertools import permutations
 
 def main(args):
     puzzle = parse_puzzle(args.puzzle)
@@ -44,7 +45,7 @@ def write_ans(output_file, encoded):
             file.write(f"(assert (distinct {format_list(column['vars'])} )) ; line {row['line_one']} {row['line_two']}\n") # need to figure out what the numbers mean in line ? ?
         for region in encoded['regions']:
             if region['operator'] in  ["-", '/']:
-                file.write(f"(assert (or (= {region['equals']} {'need to learn'})) ; Region {region['name']}\n") # needs more work needs combinatorial combination of region['vars']
+                file.write(f"(assert {format_order_operators(region['equals'], region['operator'], region['vars'])} ; Region {region['name']}\n") # needs more work needs combinatorial combination of region['vars']
             else:
                 file.write(f"(assert (= {region['equals']} ({region['operator']} {format_list(region['vars'])}))) ; Region {region['name']}\n")
 
@@ -52,11 +53,22 @@ def write_ans(output_file, encoded):
         file.write(f"(get-value ({encoded['var']}))")
         file.write("(exit)")
 
-def format_list(list):
-    str = ''
-    for var in list:
-        str = str + var + ' '
-    return str[:-1]
+def format_order_operators(equals, operator, vars):
+    var_str = '(or '
+    perms_list = list(map(list, permutations(vars)))
+    for permutation in perms_list:
+        for vars in permutation:
+            var_str = var_str + f'(= {equals} ({operator} {format_list(vars)}))'
+    var_str = var_str + ')'
+    return var_str
+
+def format_list(vars):
+    var_str = ''
+    for var in vars:
+        var_str = var_str + var + ' '
+    return var_str[:-1] # remove last space
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("puzzle", type=str)
