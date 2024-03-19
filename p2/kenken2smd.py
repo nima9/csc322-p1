@@ -11,6 +11,7 @@ def main(args):
 def parse_puzzle(puzzle_path):
     parse_encoding = {
                     'var': [], #list of all variables
+                    'const': [], # list of regions with no operator of form {'var': '', 'value': -1}
                     'row': [], # list of form {'line_one': -1,'line_two': -1,'vars': []}
                     'columns': [], # list of form {'line_one': -1,'line_two': -1,'vars': []}
                     'region': [], # list of form {'operator': '','equals': -1,'vars': [],'name': ''}
@@ -41,8 +42,10 @@ def parse_puzzle(puzzle_path):
                     
                     i = next((i for i, item in enumerate(parse_encoding['region']) if item['name'] == new_region[0]), None)
                     if i == None:
-                        # print(new_region, line_ls[j], line_ls[j+1])
-                        parse_encoding['region'].append({'operator': new_region[1][-1:],'equals': new_region[1][:-1],'vars': [new_var],'name': new_region[0]})
+                        if not str(new_region[1][-1:]).isdigit():
+                            parse_encoding['region'].append({'operator': new_region[1][-1:],'equals': new_region[1][:-1],'vars': [new_var],'name': new_region[0]})
+                        else:
+                            parse_encoding['const'].append({'var': new_var, 'value': new_region[1]})
                     else:
                         parse_encoding['region'][i]['vars'].append(new_var)
 
@@ -59,18 +62,22 @@ def write_ans(output_file, encoded):
         file.write("(set-option :produce-assignments true)\n")
         for var in encoded['var']:
             file.write(f"(declare-const {var} Int)\n")
+        for var in encoded['var']:
+            file.write(f"(assert (and (> {var} 0) (< {var} 8)))\n")
         for row in encoded['row']:
             file.write(f"(assert (distinct {format_list(row['vars'])} )) ; line {row['line_one']} {row['line_two']}\n") # maybe comments? need to figure out the numbers mean in line ? ?
         for column in encoded['columns']:
             file.write(f"(assert (distinct {format_list(column['vars'])} )) ; line {column['line_one']} {column['line_two']}\n") # need to figure out what the numbers mean in line ? ?
+        for const in encoded['const']:
+            file.write(f"(assert (= {const['var']} {const['value']}))\n")
         for region in encoded['region']:
             if region['operator'] in  ["-", '/']:
                 file.write(f"(assert {format_order_operators(region['equals'], region['operator'], region['vars'])} ; Region {region['name']}\n") # needs more work needs combinatorial combination of region['vars']
             else:
                 file.write(f"(assert (= {region['equals']} ({region['operator']} {format_list(region['vars'])}))) ; Region {region['name']}\n")
 
-        file.write("(check-sat)")
-        file.write(f"(get-value ({format_list(encoded['var'])}))")
+        file.write("(check-sat)\n")
+        file.write(f"(get-value ({format_list(encoded['var'])}))\n")
         file.write("(exit)")
 
 def format_order_operators(equals, operator, vars):
