@@ -3,33 +3,51 @@ import argparse
 from itertools import permutations
 
 def main(args):
-    puzzle = parse_puzzle(args.puzzle)
+    encoded = parse_puzzle(args.puzzle)
 
-    write_ans(args.output_file)
+    write_ans(args.output_file, encoded)
     return
 
 
-def parse_puzzle(puzzle):
-    parse_dict = {
+def parse_puzzle(puzzle_path):
+    parse_encoding = {
                     'var': [], #list of all variables
-                    'row': [{
-                                'line_one': -1,
-                                'line_two': -1,
-                                'vars': []
-                            }], # (assert (distinct V0 V1 V2 V3 V4 V5 V6 V7 V8 )) ; line What is this!!!! ???0 1
-                    'columns': [{
-                                    'line_one': -1,
-                                    'line_two': -1,
-                                    'vars': []
-                                }], # vars in each columns
-                    'region': [{
-                                'operator': '', # operator
-                                'equals': -1, # int for what equals
-                                'vars': [], # vars in region
-                                'name': '' # region name
-                                }],
+                    'row': [], # list of form {'line_one': -1,'line_two': -1,'vars': []}
+                    'columns': [], # list of form {'line_one': -1,'line_two': -1,'vars': []}
+                    'region': [], # list of form {'operator': '','equals': -1,'vars': [],'name': ''}
                   }
-    return puzzle
+    
+    with open(puzzle_path, 'r') as f:
+        var_counter = 0
+        row_counter = 0
+        column_counter = 0
+        contents = f.read()
+        for line in contents:
+            line_ls = line.split(',')
+            for i in range(len(line_ls)):
+                new_region = line_ls[i].split('.')
+
+                new_var = 'V' + var_counter
+                parse_encoding['var'].append(new_var)
+                var_counter += 1
+                try:
+                    parse_encoding['columns'][i]['vars'].append(new_var)
+                except:
+                    parse_encoding['columns'].append({'line_one': 0,'line_two': column_counter,'vars': []})
+                    parse_encoding['columns'][i]['vars'].append(new_var)
+                    column_counter += 1
+                
+                i = next((i for i, item in enumerate(parse_encoding['region']) if item['name'] == new_region[0]), None)
+                if not i:
+                    parse_encoding['region'].append({'operator': new_region[1][-1:],'equals': new_region[1][:-1],'vars': [new_var],'name': new_region[0]})
+                else:
+                    parse_encoding['region'][i]['vars'].append(new_var)
+
+            parse_encoding['row'].append({'line_one': row_counter,'line_two': 0,'vars': []})
+            parse_encoding['row'][0]['vars'].append(parse_encoding['var'][-7:])
+            row_counter += 1
+
+    return parse_encoding
 
 
 def write_ans(output_file, encoded):
