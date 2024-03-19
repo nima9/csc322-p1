@@ -4,7 +4,6 @@ from itertools import permutations
 
 def main(args):
     encoded = parse_puzzle(args.puzzle)
-
     write_ans(args.output_file, encoded)
     return
 
@@ -22,30 +21,33 @@ def parse_puzzle(puzzle_path):
         row_counter = 0
         column_counter = 0
         contents = f.read()
+        contents = contents.split('\n')
         for line in contents:
             line_ls = line.split(',')
-            for i in range(len(line_ls)):
-                new_region = line_ls[i].split('.')
+            if len(line_ls) < 7:
+                pass
+            else:
+                for j in range(len(line_ls)):
+                    new_region = line_ls[j].split('.')
+                    new_var = 'V' + repr(var_counter)
+                    parse_encoding['var'].append(new_var)
+                    var_counter += 1
+                    try:
+                        parse_encoding['columns'][j]['vars'].append(new_var)
+                    except:
+                        parse_encoding['columns'].append({'line_one': 0,'line_two': column_counter,'vars': []})
+                        parse_encoding['columns'][j]['vars'].append(new_var)
+                        column_counter += 1
+                    
+                    i = next((i for i, item in enumerate(parse_encoding['region']) if item['name'] == new_region[0]), None)
+                    if i == None:
+                        # print(new_region, line_ls[j], line_ls[j+1])
+                        parse_encoding['region'].append({'operator': new_region[1][-1:],'equals': new_region[1][:-1],'vars': [new_var],'name': new_region[0]})
+                    else:
+                        parse_encoding['region'][i]['vars'].append(new_var)
 
-                new_var = 'V' + var_counter
-                parse_encoding['var'].append(new_var)
-                var_counter += 1
-                try:
-                    parse_encoding['columns'][i]['vars'].append(new_var)
-                except:
-                    parse_encoding['columns'].append({'line_one': 0,'line_two': column_counter,'vars': []})
-                    parse_encoding['columns'][i]['vars'].append(new_var)
-                    column_counter += 1
-                
-                i = next((i for i, item in enumerate(parse_encoding['region']) if item['name'] == new_region[0]), None)
-                if not i:
-                    parse_encoding['region'].append({'operator': new_region[1][-1:],'equals': new_region[1][:-1],'vars': [new_var],'name': new_region[0]})
-                else:
-                    parse_encoding['region'][i]['vars'].append(new_var)
-
-            parse_encoding['row'].append({'line_one': row_counter,'line_two': 0,'vars': []})
-            parse_encoding['row'][0]['vars'].append(parse_encoding['var'][-7:])
-            row_counter += 1
+                parse_encoding['row'].append({'line_one': row_counter,'line_two': 0,'vars': parse_encoding['var'][-7:]})
+                row_counter += 1
 
     return parse_encoding
 
@@ -54,30 +56,29 @@ def write_ans(output_file, encoded):
     with open(output_file, "w") as file:
         file.write("(set-logic UFNIA)\n")
         file.write("(set-option :produce-models true)\n")
-        file.write("set-option :produce-assignments true)\n")
+        file.write("(set-option :produce-assignments true)\n")
         for var in encoded['var']:
-            file.write(f"(declare-const {format_list(var)} Int)\n")
+            file.write(f"(declare-const {var} Int)\n")
         for row in encoded['row']:
             file.write(f"(assert (distinct {format_list(row['vars'])} )) ; line {row['line_one']} {row['line_two']}\n") # maybe comments? need to figure out the numbers mean in line ? ?
-        for column in encoded['column']:
-            file.write(f"(assert (distinct {format_list(column['vars'])} )) ; line {row['line_one']} {row['line_two']}\n") # need to figure out what the numbers mean in line ? ?
-        for region in encoded['regions']:
+        for column in encoded['columns']:
+            file.write(f"(assert (distinct {format_list(column['vars'])} )) ; line {column['line_one']} {column['line_two']}\n") # need to figure out what the numbers mean in line ? ?
+        for region in encoded['region']:
             if region['operator'] in  ["-", '/']:
                 file.write(f"(assert {format_order_operators(region['equals'], region['operator'], region['vars'])} ; Region {region['name']}\n") # needs more work needs combinatorial combination of region['vars']
             else:
                 file.write(f"(assert (= {region['equals']} ({region['operator']} {format_list(region['vars'])}))) ; Region {region['name']}\n")
 
         file.write("(check-sat)")
-        file.write(f"(get-value ({encoded['var']}))")
+        file.write(f"(get-value ({format_list(encoded['var'])}))")
         file.write("(exit)")
 
 def format_order_operators(equals, operator, vars):
     var_str = '(or '
     perms_list = list(map(list, permutations(vars)))
     for permutation in perms_list:
-        for vars in permutation:
-            var_str = var_str + f'(= {equals} ({operator} {format_list(vars)}))'
-    var_str = var_str + ')'
+        var_str = var_str + f'(= {equals} ({operator} {format_list(permutation)}))'
+    var_str = var_str + '))'
     return var_str
 
 def format_list(vars):
