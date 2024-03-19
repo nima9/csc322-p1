@@ -37,20 +37,26 @@ def write_ans(output_file, encoded):
         file.write("(set-option :produce-models true)\n")
         file.write("set-option :produce-assignments true)\n")
         for var in encoded['var']:
-            file.write(f"(declare-const {var} Int)\n")
+            file.write(f"(declare-const {format_list(var)} Int)\n")
         for row in encoded['row']:
-            file.write(f"(assert (distinct {row['vars']} )) ; line {row['line_one']} {row['line_two']}\n") # maybe comments? need to figure out the numbers mean in line ? ?
+            file.write(f"(assert (distinct {format_list(row['vars'])} )) ; line {row['line_one']} {row['line_two']}\n") # maybe comments? need to figure out the numbers mean in line ? ?
         for column in encoded['column']:
-            file.write(f"(assert (distinct {column['vars']} )) ; line {row['line_one']} {row['line_two']}\n") # need to figure out what the numbers mean in line ? ?
+            file.write(f"(assert (distinct {format_list(column['vars'])} )) ; line {row['line_one']} {row['line_two']}\n") # need to figure out what the numbers mean in line ? ?
         for region in encoded['regions']:
             if region['operator'] in  ["-", '/']:
-                file.write(f"(assert (or (= {region['equals']} {''})) ; Region {region['name']}\n") # needs more work needs combinatorial combination of vars
+                file.write(f"(assert (or (= {region['equals']} {'need to learn'})) ; Region {region['name']}\n") # needs more work needs combinatorial combination of region['vars']
             else:
-                file.write(f"(assert (= {region['equals']} ({region['operator']} {region['vars']}))) ; Region {region['name']}\n")
+                file.write(f"(assert (= {region['equals']} ({region['operator']} {format_list(region['vars'])}))) ; Region {region['name']}\n")
 
         file.write("(check-sat)")
         file.write(f"(get-value ({encoded['var']}))")
         file.write("(exit)")
+
+def format_list(list):
+    str = ''
+    for var in list:
+        str = str + var + ' '
+    return str[:-1]
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("puzzle", type=str)
