@@ -1,0 +1,130 @@
+3,5c3,5
+<  :cnf-variables 365
+<  :cnf-literals 377
+<  :cnf-clauses 369
+---
+>  :cnf-variables 428
+>  :cnf-literals 432
+>  :cnf-clauses 413
+7,16c7,16
+<  :sat-restarts 1
+<  :sat-decisions 1216
+<  :sat-random-decisions 0
+<  :sat-propagations 11954
+<  :sat-theory-propagations 1378
+<  :sat-watched-clauses-visited 11100
+<  :sat-binary-watched-clauses-visited 971
+<  :sat-conflicts 162
+<  :sat-theory-conflicts 146
+<  :theory-necessary-interface-equalities 0
+---
+>  :sat-restarts 9
+>  :sat-decisions 39427
+>  :sat-random-decisions 21
+>  :sat-propagations 668113
+>  :sat-theory-propagations 9863
+>  :sat-watched-clauses-visited 2886571
+>  :sat-binary-watched-clauses-visited 64239
+>  :sat-conflicts 11052
+>  :sat-theory-conflicts 7263
+>  :theory-necessary-interface-equalities 3
+18,21c18,21
+<  :euf-total-calls 1587
+<  :euf-complete-calls 2
+<  :euf-conflicts 0
+<  :euf-implications 0
+---
+>  :euf-total-calls 50566
+>  :euf-complete-calls 23
+>  :euf-conflicts 5
+>  :euf-implications 356
+23,40c23,40
+<  :euf-egraph-nodes-created 2237
+<  :euf-egraph-nodes-deleted 0
+<  :euf-num-asserted-equalities 275
+<  :euf-num-asserted-inequalities 275
+<  :euf-num-merges 275
+<  :euf-num-merges-undone 0
+<  :euf-num-atoms-retold 0
+<  :la-total-calls 1587
+<  :la-complete-calls 2
+<  :la-conflicts 146
+<  :la-implications 1378
+<  :la-explanations 1378
+<  :la-num-equalities-split 275
+<  :la-num-tableau-rows 212
+<  :la-num-tableau-variables 236
+<  :la-avg-tableau-row-length 5
+<  :la-max-tableau-row-length 9
+<  :la-num-pivot-operations 658
+---
+>  :euf-egraph-nodes-created 3177
+>  :euf-egraph-nodes-deleted 545
+>  :euf-num-asserted-equalities 28890
+>  :euf-num-asserted-inequalities 12817
+>  :euf-num-merges 51145
+>  :euf-num-merges-undone 50783
+>  :euf-num-atoms-retold 282
+>  :la-total-calls 50561
+>  :la-complete-calls 23
+>  :la-conflicts 7258
+>  :la-implications 9507
+>  :la-explanations 8983
+>  :la-num-equalities-split 323
+>  :la-num-tableau-rows 334
+>  :la-num-tableau-variables 398
+>  :la-avg-tableau-row-length 8.51796
+>  :la-max-tableau-row-length 20
+>  :la-num-pivot-operations 59003
+49,50c49,50
+<  :bv-total-calls 1441
+<  :bv-complete-calls 2
+---
+>  :bv-total-calls 43303
+>  :bv-complete-calls 23
+54,55c54,55
+<  :fp-total-calls 1441
+<  :fp-complete-calls 2
+---
+>  :fp-total-calls 43303
+>  :fp-complete-calls 23
+59,60c59,60
+<  :arr-total-calls 1441
+<  :arr-complete-calls 2
+---
+>  :arr-total-calls 43303
+>  :arr-complete-calls 23
+68,69c68,69
+<  :na-total-calls 1441
+<  :na-complete-calls 2
+---
+>  :na-total-calls 43303
+>  :na-complete-calls 23
+73,75c73,75
+<  :na-num_nonlinear_multiplications 0
+<  :na-num_axiom_checks 0
+<  :na-num_zero_lemmas 0
+---
+>  :na-num_nonlinear_multiplications 12
+>  :na-num_axiom_checks 10
+>  :na-num_zero_lemmas 20
+77,79c77,79
+<  :na-num_neutral_lemmas 0
+<  :na-num_proportionality_lemmas 0
+<  :na-num_bound_lemmas 0
+---
+>  :na-num_neutral_lemmas 16
+>  :na-num_proportionality_lemmas 22
+>  :na-num_bound_lemmas 6
+82,86c82,86
+<  :na-num_sat_checks 0
+<  :na-axiom_check_time 0.000
+<  :na-sat_check_time 0.000
+<  :time-seconds 0.104
+<  :memory-mb 19.930
+---
+>  :na-num_sat_checks 4
+>  :na-axiom_check_time 0.026
+>  :na-sat_check_time 0.153
+>  :time-seconds 7.049
+>  :memory-mb 31.805
