@@ -65,14 +65,14 @@ def write_ans(output_file, encoded):
         for var in encoded['var']:
             file.write(f"(assert (and (> {var} 0) (< {var} 8)))\n")
         for row in encoded['row']:
-            file.write(f"(assert (distinct {format_list(row['vars'])} )) ; line {row['line_one']} {row['line_two']}\n") # maybe comments? need to figure out the numbers mean in line ? ?
+            file.write(f"(assert (distinct {format_list(row['vars'])} )) ; line {row['line_one']} {row['line_two']}\n") 
         for column in encoded['columns']:
-            file.write(f"(assert (distinct {format_list(column['vars'])} )) ; line {column['line_one']} {column['line_two']}\n") # need to figure out what the numbers mean in line ? ?
+            file.write(f"(assert (distinct {format_list(column['vars'])} )) ; line {column['line_one']} {column['line_two']}\n") 
         for const in encoded['const']:
             file.write(f"(assert (= {const['var']} {const['value']})) ; Region {const['region']}\n")
         for region in encoded['region']:
             if region['operator'] in  ["-", '/']:
-                file.write(f"(assert {format_order_operators(region['equals'], region['operator'], region['vars'])} ; Region {region['name']}\n") # needs more work needs combinatorial combination of region['vars']
+                file.write(f"(assert {format_order_operators(region['equals'], region['operator'], region['vars'])} ; Region {region['name']}\n") 
             else:
                 file.write(f"(assert (= {region['equals']} ({region['operator']} {format_list(region['vars'])}))) ; Region {region['name']}\n")
 
