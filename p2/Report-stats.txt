@@ -3,11 +3,9 @@ General notes: mathsat ran noticeably slower when running the hard puzzle
 Each area is formatted with the average file first and the hard file next.
 ie format
 # observations on about the section
-< average
+< :average
 ---
-> hard
-
-
+> :hard
 
 # Variables:
 #   We can see that the number of variables, literals and clauses is more for 
@@ -24,7 +22,10 @@ ie format
 
 # SAT:
 #   We can see that the hard puzzle required 9 restarts vs to the average puzzle only required one restart.
-#   This is because
+#   We can also see that the number of random decisions, propagations, and watched clauses are much more for
+#   the hard encoding.
+#   This is because there are many more possible distribution of variable values for the variables in the hard
+#   encoding, causing the SAT solver to make guesses and go down the wrong path while trying to solve the problem.
 <  :sat-restarts 1
 <  :sat-decisions 1216
 <  :sat-random-decisions 0
@@ -34,7 +35,6 @@ ie format
 <  :sat-binary-watched-clauses-visited 971
 <  :sat-conflicts 162
 <  :sat-theory-conflicts 146
-<  :theory-necessary-interface-equalities 0
 ---
 >  :sat-restarts 9
 >  :sat-decisions 39427
@@ -45,9 +45,11 @@ ie format
 >  :sat-binary-watched-clauses-visited 64239
 >  :sat-conflicts 11052
 >  :sat-theory-conflicts 7263
->  :theory-necessary-interface-equalities 3
 
-# EUF calls
+# EUF calls:
+#   We can see that again the hard encoding requires many more euf calls and has more conflicts.
+#   Therefore we can conclude that the encoding efficiency of the puzzle hard puzzle is worse causing 
+#   more conflicts and euf implications.
 <  :euf-total-calls 1587
 <  :euf-complete-calls 2
 <  :euf-conflicts 0
@@ -58,7 +60,13 @@ ie format
 >  :euf-conflicts 5
 >  :euf-implications 356
 
-
+# Memory and Runtime:
+#   We can see that there is a non trivial difference in the runtime of the hard puzzle when compared
+#   to the average puzzle. While we can see that the na-axiom_check_time and the na-sat_check_time
+#   have a pretty trivial difference in run time. However, we can see that the overall run time and 
+#   memory used by the sat solvers is not trivial. We can conclude this is do to the difference in the 
+#   number of restarts required by the hard solver and the greater amount of propagations that the and
+#   random guesses that hard encoding required.
 <  :na-num_sat_checks 0
 <  :na-axiom_check_time 0.000
 <  :na-sat_check_time 0.000
