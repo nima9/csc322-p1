@@ -12,6 +12,7 @@ def get_data(json_file, solved):
         "values": [], # lists the value of each cell in row-major order, or is full of empty strings
         "regions": [], # lists the region of each cell in row-major order
     }
+    region = 1
 
     with open(json_file, "r") as f:
         input = json.load(f)["data"]
@@ -29,11 +30,19 @@ def get_data(json_file, solved):
     target = target.replace("\r\n", " ")
     symbols = symbols.replace("\r\n", " ")
     for i in range(49):
-        t = target[4*i:4*(i+1)]
-        s = symbols[2*i:2*(i+1)]
-        data["rules"].append(t.strip() + s.strip())
-    data["regions"] = [""] * 49
-    print(data)
+        t = target[4*i:4*(i+1)].strip()
+        s = symbols[2*i:2*(i+1)].strip()
+        if t == "0" or s == "0":
+            data["rules"].append("")
+            data["regions"].append("region")
+        elif s == "1":
+            data["rules"].append(t)
+            data["regions"].append(str(region))
+            region += 1
+        else:
+            data["rules"].append(t + s)
+            data["regions"].append(str(region))
+            region += 1
 
     return data
 
