@@ -1,16 +1,40 @@
 import argparse
+import json
 
 def main(args):
-    data = get_data(args.json_file)
+    data = get_data(args.json_file, True)
     prettyprint(data["rules"], data["values"], data["regions"])
 
-def get_data(json_file):
+def get_data(json_file, solved):
     """Reads the json file and extracts each cell's rule (if it has one), value (if the puzzle is solved) and region"""
     data = {
         "rules": [], # lists the rule of each cell in row-major order, leaving empty strings for cells which aren't in the top-left of their region
         "values": [], # lists the value of each cell in row-major order, or is full of empty strings
         "regions": [], # lists the region of each cell in row-major order
     }
+
+    with open(json_file, "r") as f:
+        input = json.load(f)["data"]
+    input = input.split("A")[1]
+    (answer, input) = input.split("T")
+    (target, input) = input.split("S")
+    (symbols, input) = input.split("V")
+
+    if solved:
+        answer.replace("\r\n", "")
+        for v in answer.split(" "):
+            data["values"].append(v.strip())
+    else:
+        data["values"] = [""] * 49
+    target = target.replace("\r\n", " ")
+    symbols = symbols.replace("\r\n", " ")
+    for i in range(49):
+        t = target[4*i:4*(i+1)]
+        s = symbols[2*i:2*(i+1)]
+        data["rules"].append(t.strip() + s.strip())
+    data["regions"] = [""] * 49
+    print(data)
+
     return data
 
 def prettyprint(rules, values, regions):
@@ -59,7 +83,7 @@ def prettyprint(rules, values, regions):
         # row 1
         s += "\n|"
         for j in range(7):
-            s += " " + rule(rules, i, j) + " " * (cell_width - 3)
+            s += " " + rule(rules, i, j) + " " * (cell_width - 4)
             if j == 6:
                 s += "|"
             elif connects(regions, (i, j), (i, j+1)):
@@ -67,13 +91,13 @@ def prettyprint(rules, values, regions):
             else:
                 s += "|"
         # row 2
-        s += "\n|"
+        s += "\n" + "|"
         for j in range(7):
             # row 2 always has a pipe, even if the cells are connected
             s += " " * cell_width
             s += "|"
         # row 3
-        s += "\n|"
+        s += "\n" + "|"
         for j in range(7):
             s += " " * (cell_width - 2) + value(values, i, j) + " "
             if j == 6:
@@ -83,11 +107,12 @@ def prettyprint(rules, values, regions):
             else:
                 s += "|"
         # horizontal bar row
+        s += "\n"
         if i == 6:
             # the last line is always a complete bar
-            s += "\n " + "-" * ((cell_width + 1) * 7 - 1)
+            s += " " + "-" * ((cell_width + 1) * 7 - 1)
         else:
-            s += "\n|"
+            s += "|"
             for j in range(7):
                 # vertical connections result in incomplete bars
                 if connects(regions, (i, j), (i+1, j)):
@@ -104,17 +129,20 @@ def prettyprint(rules, values, regions):
     print(s)
 
 def rule(rules, row, column):
-    """Returns the rule of the cell, if it is in the top-left of its region, plus enough spaces to reach two characters no matter what"""
-    return rules[9 * row + column]
+    """Returns the rule of the cell, if it is in the top-left of its region, plus enough spaces to reach three characters no matter what"""
+    rule = rules[7 * row + column]
+    while len(rule) < 3:
+        rule += " "
+    return rule
 
 def value(values, row, column):
     """Returns the value of the given cell"""
-    return values[9 * row + column]
+    return values[7 * row + column]
 
 def connects(regions, coord1, coord2):
     """Returns true if the cell at coord1 and the cell at coord2 belong to the same region, false otherwise"""
-    region1 = regions[9 * coord1[0] + coord1[1]]
-    region2 = regions[9 * coord2[0] + coord2[1]]
+    region1 = regions[7 * coord1[0] + coord1[1]]
+    region2 = regions[7 * coord2[0] + coord2[1]]
     return region1 == region2
 
 if __name__ == "__main__":
