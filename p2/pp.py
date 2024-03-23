@@ -4,14 +4,14 @@ import json
 
 # run: pp.py json.json
 def main(args):
-    spaces = " " * 17
-    print("\n\n" + spaces + "~~~ ⌄⌄ UN-SOLVED PUZZLE ⌄⌄ ~~~")
-    data = get_data(args.json_file, False)
-    prettyprint(data["rules"], data["values"], data["connections"])
-
-    print("\n\n" + spaces + "~~~ ⌄⌄ SOLVED PUZZLE ⌄⌄ ~~~")
-    data = get_data(args.json_file, True)
-    prettyprint(data["rules"], data["values"], data["connections"])
+    with open(args.output_path, "w") as f:
+        spaces = " " * 18
+        f.write("\n\n" + spaces + "~~~ UN-SOLVED PUZZLE ~~~")
+        data = get_data(args.json_file, False)
+        f.write(prettyprint(data["rules"], data["values"], data["connections"], args.unsolved_output))
+        f.write("\n\n" + spaces + "~~~ SOLVED PUZZLE ~~~")
+        data = get_data(args.json_file, True)
+        f.write(prettyprint(data["rules"], data["values"], data["connections"], args.solved_output))
 
 
 def get_data(json_file, solved):
@@ -72,7 +72,7 @@ def get_data(json_file, solved):
     return data
 
 
-def prettyprint(rules, values, connections):
+def prettyprint(rules, values, connections, output_path):
     cell_width = 8
     cell_height = 3
     s = ""
@@ -131,7 +131,7 @@ def prettyprint(rules, values, connections):
                     s += "-"
                 else:
                     s += "|"
-    print(s)
+    return s
 
 
 def rule(rules, row, column):
@@ -158,5 +158,6 @@ def connects(connections, row, column, direction):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("json_file", type=str)
+    parser.add_argument("output_path", type=str)
     args = parser.parse_args()
     main(args)
