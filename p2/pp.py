@@ -4,6 +4,8 @@ import json
 def main(args):
     data = get_data(args.json_file, False)
     prettyprint(data["rules"], data["values"], data["connections"])
+    data = get_data(args.json_file, True)
+    prettyprint(data["rules"], data["values"], data["connections"])
 
 def get_data(json_file, solved):
     """Reads the json file and extracts each cell's rule (if it has one), value (if the puzzle is solved) and the directions it connects to other cells"""
