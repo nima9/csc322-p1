@@ -8,10 +8,10 @@ def main(args):
         spaces = " " * 18
         f.write("\n\n" + spaces + "~~~ UN-SOLVED PUZZLE ~~~")
         data = get_data(args.json_file, False)
-        f.write(prettyprint(data["rules"], data["values"], data["connections"], args.unsolved_output))
+        f.write(prettyprint(data["rules"], data["values"], data["connections"]))
         f.write("\n\n" + spaces + "~~~ SOLVED PUZZLE ~~~")
         data = get_data(args.json_file, True)
-        f.write(prettyprint(data["rules"], data["values"], data["connections"], args.solved_output))
+        f.write(prettyprint(data["rules"], data["values"], data["connections"]))
 
 
 def get_data(json_file, solved):
