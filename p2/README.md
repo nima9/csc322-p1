@@ -16,3 +16,9 @@ pp.py:
     input.txt is the file containing the json file as specified by Project2-1.pdf document
 
 python3 pp.py input.txt
+
+
+Report-gen.txt
+Is all of the general report information about our puzzle converter
+
+Report-stats.txt is the report comparing the mathsat run times of the hard vs average puzzle
