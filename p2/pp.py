@@ -86,7 +86,7 @@ def prettyprint(rules, values, connections):
         # row 1
         s += "\n|"
         for j in range(7):
-            s += " " + rule(rules, i, j) + " " * (cell_width - 4)
+            s += " " + rule(rules, i, j)
             if j == 6:
                 s += "|"
             elif connects(connections, i, j, "right"):
@@ -137,7 +137,7 @@ def prettyprint(rules, values, connections):
 def rule(rules, row, column):
     """Returns the rule of the cell, if it is in the top-left of its region, plus enough spaces to reach three characters no matter what"""
     rule = rules[7 * row + column]
-    while len(rule) < 3:
+    while len(rule) < 7:
         rule += " "
     return rule
 
