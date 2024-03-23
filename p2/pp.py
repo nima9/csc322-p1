@@ -5,11 +5,11 @@ import json
 # run: pp.py json.json
 def main(args):
     with open(args.output_path, "w") as f:
-        spaces = " " * 18
-        f.write("\n\n" + spaces + "~~~ UN-SOLVED PUZZLE ~~~")
+        spaces = " " * 20
+        f.write("\n\n" + spaces + "~~~ UN-SOLVED PUZZLE ~~~\n")
         data = get_data(args.json_file, False)
         f.write(prettyprint(data["rules"], data["values"], data["connections"]))
-        f.write("\n\n" + spaces + "~~~ SOLVED PUZZLE ~~~")
+        f.write("\n\n" + spaces + "~~~ SOLVED PUZZLE ~~~\n")
         data = get_data(args.json_file, True)
         f.write(prettyprint(data["rules"], data["values"], data["connections"]))
 
@@ -72,7 +72,7 @@ def get_data(json_file, solved):
     return data
 
 
-def prettyprint(rules, values, connections, output_path):
+def prettyprint(rules, values, connections):
     cell_width = 8
     cell_height = 3
     s = ""
