@@ -62,3 +62,12 @@ After running, `output.txt` will contain two ASCII graphics representing the uns
 python3 pp.py input.json output.txt
 ```
 </details>
+
+<details><summary>Report-gen.pdf</summary>
+Explains how our programs work, and why we wrote them the way we did.
+</details>
+
+
+<details><summary>Report-stats.txt</summary>
+Is the report comparing the mathsat run times of the hard vs average puzzle
+</details>
