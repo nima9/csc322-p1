@@ -1,18 +1,25 @@
 import argparse
 import json
 
+
+# run: pp.py json.json
 def main(args):
+    spaces = " " * 17
+    print("\n\n" + spaces + "~~~ ⌄⌄ UN-SOLVED PUZZLE ⌄⌄ ~~~")
     data = get_data(args.json_file, False)
     prettyprint(data["rules"], data["values"], data["connections"])
+
+    print("\n\n" + spaces + "~~~ ⌄⌄ SOLVED PUZZLE ⌄⌄ ~~~")
     data = get_data(args.json_file, True)
     prettyprint(data["rules"], data["values"], data["connections"])
+
 
 def get_data(json_file, solved):
     """Reads the json file and extracts each cell's rule (if it has one), value (if the puzzle is solved) and the directions it connects to other cells"""
     data = {
-        "rules": [], # lists the rule of each cell in row-major order, leaving empty strings for cells which aren't in the top-left of their region
-        "values": [], # lists the value of each cell in row-major order, or is full of empty strings
-        "connections": [], # for each cell, lists whether it connects to the cell on its right, bottom, or both
+        "rules": [],  # lists the rule of each cell in row-major order, leaving empty strings for cells which aren't in the top-left of their region
+        "values": [],  # lists the value of each cell in row-major order, or is full of empty strings
+        "connections": [],  # for each cell, lists whether it connects to the cell on its right, bottom, or both
     }
 
     with open(json_file, "r") as f:
@@ -32,8 +39,8 @@ def get_data(json_file, solved):
     target = target.replace("\r\n", " ")
     symbols = symbols.replace("\r\n", " ")
     for i in range(49):
-        n = target[4*i:4*(i+1)].strip()
-        s = symbols[2*i:2*(i+1)].strip()
+        n = target[4 * i : 4 * (i + 1)].strip()
+        s = symbols[2 * i : 2 * (i + 1)].strip()
         if n == "0" or s == "0":
             data["rules"].append("")
         elif s == "1":
@@ -44,8 +51,16 @@ def get_data(json_file, solved):
     horizontal = horizontal.replace("\r\n", " ")
     for i in range(7):
         for j in range(7):
-            v = vertical[2*(6*i+j):2*(6*i+j+1)].strip() if j<6 else "1"
-            h = horizontal[2*(6*j+i):2*(6*j+i+1)].strip() if i<6 else "1"
+            v = (
+                vertical[2 * (6 * i + j) : 2 * (6 * i + j + 1)].strip()
+                if j < 6
+                else "1"
+            )
+            h = (
+                horizontal[2 * (6 * j + i) : 2 * (6 * j + i + 1)].strip()
+                if i < 6
+                else "1"
+            )
             if h == "0" and v == "0":
                 data["connections"].append("both")
             elif h == "0":
@@ -55,6 +70,7 @@ def get_data(json_file, solved):
             else:
                 data["connections"].append("")
     return data
+
 
 def prettyprint(rules, values, connections):
     cell_width = 8
@@ -108,12 +124,15 @@ def prettyprint(rules, values, connections):
                     s += "-" * cell_width
                 if j == 6:
                     s += "|"
-                elif connects(connections, i, j, "right") and connects(connections, i+1, j, "right"):
+                elif connects(connections, i, j, "right") and connects(
+                    connections, i + 1, j, "right"
+                ):
                     # when the cells above and below connect horizontally, the bar has no pipe
                     s += "-"
                 else:
                     s += "|"
     print(s)
+
 
 def rule(rules, row, column):
     """Returns the rule of the cell, if it is in the top-left of its region, plus enough spaces to reach three characters no matter what"""
@@ -122,13 +141,19 @@ def rule(rules, row, column):
         rule += " "
     return rule
 
+
 def value(values, row, column):
     """Returns the value of the given cell"""
     return values[7 * row + column]
 
+
 def connects(connections, row, column, direction):
     """Returns true if the cell has a connection in the given direction(s)"""
-    return connections[7 * row + column] == direction or connections[7 * row + column] == "both"
+    return (
+        connections[7 * row + column] == direction
+        or connections[7 * row + column] == "both"
+    )
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
