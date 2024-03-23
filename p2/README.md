@@ -1,24 +1,62 @@
-How to Run:
-kenken2smt.py:
-    input.txt is a text file containing a 7x7 kenken puzzle that is of the form specified by the Project 2-1.pdf documentation
-    output.smt is what you want the name of the file that kenken2smt.py outputs the smt-lib formatted file for input into mathsat
+# Project 2 for CSC 322 Class (with Alex, Carter, and Nima - Group 15)
 
-python3 kenken2smt.py input.txt output.smt
+## Student Names and IDs for Group 15:
+
+- Alexander Lambert - V00956639
+- Carter Cranston   - V01000607
+- Nima Mohajeri     - V00857216
+
+<br/>
+
+<details><summary>How to run `kenken2smt.py`.</summary>
+
+#### `input.txt` is a text file containing a 7x7 kenken puzzle that is of the form specified by the `Project 2.pdf` documentation. After running, `output.smt` will contain the puzzle, converted into smt-lib format.
+
+##### How to run kenken2smt.py:
+```
+python3 kenken2smt.py <input.txt> <output.smt>
+```
+###### Parameters explained for `kenken2smt.py` ^^
+<input.txt>: pass the input file in a .txt format
+<output.smt>: pass the name of what you want your output.smt to be named after running `kenken2smt.py`, ex: “myoutput.smt”.
+
+</details>
 
 
-smt2kenken.py:
-    input.smt is the file containing the output of mathsat
-    output.txt is the name file that smt2kenken.py outputs either the solution to the kenken file if SAT else it writes unsatisfiable
 
-python3 smt2kenken.py input.smt output.txt
 
+
+
+
+<details><summary>How to run `smt2kenken.py`.</summary>
+
+#### `input.smt` is the file containing the output from mathsat. After running `smt2kenken.py`, there will be an `output.txt` file which will contain the solution to the puzzle, or the sentence “uh oh spaghettios this problem is unsat!”.
+##### How to run `smt2kenken.py`
+```
+python3 smt2kenken.py <input.smt> <output.txt>
+```
+###### Parameters explained for `smt2kenken.py` ^^
+<input.smt>: pass the input file in a .smt format
+<output.txt>: pass the name of what you want your output.txt to be named after running `smt2kenken.py`, ex: “myoutput.txt”.
+
+</details>
+
+
+
+
+
+<details><summary>How to run `smt2kenken.py`.</summary>
 pp.py:
-    input.txt is the file containing the json file as specified by Project2-1.pdf document
+    `input.json` is the file containing the json file as specified by the `Project2.pdf` documentation.
+After running, `output.txt` will contain two ASCII graphics representing the unsolved and solved puzzle.
+```
+python3 pp.py input.json output.txt
+```
+</details>
 
-python3 pp.py input.txt
 
 
 Report-gen.txt
-Is all of the general report information about our puzzle converter
+Explains how our programs work, and why we wrote them the way we did.
 
 Report-stats.txt is the report comparing the mathsat run times of the hard vs average puzzle
