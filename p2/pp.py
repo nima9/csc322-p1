@@ -2,17 +2,16 @@ import argparse
 import json
 
 def main(args):
-    data = get_data(args.json_file, True)
-    prettyprint(data["rules"], data["values"], data["regions"])
+    data = get_data(args.json_file, False)
+    prettyprint(data["rules"], data["values"], data["connections"])
 
 def get_data(json_file, solved):
-    """Reads the json file and extracts each cell's rule (if it has one), value (if the puzzle is solved) and region"""
+    """Reads the json file and extracts each cell's rule (if it has one), value (if the puzzle is solved) and the directions it connects to other cells"""
     data = {
         "rules": [], # lists the rule of each cell in row-major order, leaving empty strings for cells which aren't in the top-left of their region
         "values": [], # lists the value of each cell in row-major order, or is full of empty strings
-        "regions": [], # lists the region of each cell in row-major order
+        "connections": [], # for each cell, lists whether it connects to the cell on its right, bottom, or both
     }
-    region = 1
 
     with open(json_file, "r") as f:
         input = json.load(f)["data"]
@@ -20,65 +19,42 @@ def get_data(json_file, solved):
     (answer, input) = input.split("T")
     (target, input) = input.split("S")
     (symbols, input) = input.split("V")
+    (vertical, horizontal) = input.split("H")
 
     if solved:
         answer.replace("\r\n", "")
-        for v in answer.split(" "):
-            data["values"].append(v.strip())
+        for n in answer.split(" "):
+            data["values"].append(n.strip())
     else:
-        data["values"] = [""] * 49
+        data["values"] = [" "] * 49
     target = target.replace("\r\n", " ")
     symbols = symbols.replace("\r\n", " ")
     for i in range(49):
-        t = target[4*i:4*(i+1)].strip()
+        n = target[4*i:4*(i+1)].strip()
         s = symbols[2*i:2*(i+1)].strip()
-        if t == "0" or s == "0":
+        if n == "0" or s == "0":
             data["rules"].append("")
-            data["regions"].append("region")
         elif s == "1":
-            data["rules"].append(t)
-            data["regions"].append(str(region))
-            region += 1
+            data["rules"].append(n)
         else:
-            data["rules"].append(t + s)
-            data["regions"].append(str(region))
-            region += 1
-
+            data["rules"].append(n + s)
+    vertical = vertical.replace("\r\n", " ")
+    horizontal = horizontal.replace("\r\n", " ")
+    for i in range(7):
+        for j in range(7):
+            v = vertical[2*(6*i+j):2*(6*i+j+1)].strip() if j<6 else "1"
+            h = horizontal[2*(6*j+i):2*(6*j+i+1)].strip() if i<6 else "1"
+            if h == "0" and v == "0":
+                data["connections"].append("both")
+            elif h == "0":
+                data["connections"].append("bottom")
+            elif v == "0":
+                data["connections"].append("right")
+            else:
+                data["connections"].append("")
     return data
 
-def prettyprint(rules, values, regions):
-    """
- ---------------------------
-| 1 | 2 | 3 | 4   5 | 6 | 7 |
-|---|---|---|       |   |---|
-| 2 | 3 | 4 | 5   6 | 7   1 |
-|---|---|---|-------|-------|
-| 3 | 4 | 5 | 6 | 7 | 1 | 2 |
-|---|---|---|-------|---|---|
-| 4 | 5 | 6 | 7   1 | 2 | 3 |
-|---|---|---|-------|---|---|
-| 5 | 6 | 7 | 1   2 | 3 | 4 |
-|---|---|---|-------|---|---|
-| 6 | 7 | 1 | 2 | 3 | 4 | 5 |
-|---|---|---|-------|---|---|
-| 7 | 1 | 2 | 3 | 4 | 5 | 6 |
- ---------------------------
-
-  --------------------------
- | 3      | 3-     |        |
- |        |        |        |
- |      3 |      2 |        |
- |--------|  -  -  |--------|
- | 2/     |        |        |
- |        |        |        |
- |      4 |      5 |        |
- |  -  -  |--------|--------|
- |        |                 |
- |        |        |        |
- |      2 |                 |
-  --------------------------
-    """
-
+def prettyprint(rules, values, connections):
     cell_width = 8
     cell_height = 3
     s = ""
@@ -95,7 +71,7 @@ def prettyprint(rules, values, regions):
             s += " " + rule(rules, i, j) + " " * (cell_width - 4)
             if j == 6:
                 s += "|"
-            elif connects(regions, (i, j), (i, j+1)):
+            elif connects(connections, i, j, "right"):
                 s += " "
             else:
                 s += "|"
@@ -111,7 +87,7 @@ def prettyprint(rules, values, regions):
             s += " " * (cell_width - 2) + value(values, i, j) + " "
             if j == 6:
                 s += "|"
-            elif connects(regions, (i, j), (i, j+1)):
+            elif connects(connections, i, j, "right"):
                 s += " "
             else:
                 s += "|"
@@ -124,13 +100,13 @@ def prettyprint(rules, values, regions):
             s += "|"
             for j in range(7):
                 # vertical connections result in incomplete bars
-                if connects(regions, (i, j), (i+1, j)):
+                if connects(connections, i, j, "bottom"):
                     s += " " * 2 + "-" + " " * 2 + "-" + " " * 2
                 else:
                     s += "-" * cell_width
                 if j == 6:
                     s += "|"
-                elif connects(regions, (i, j), (i, j+1)) and connects(regions, (i+1, j), (i+1, j+1)):
+                elif connects(connections, i, j, "right") and connects(connections, i+1, j, "right"):
                     # when the cells above and below connect horizontally, the bar has no pipe
                     s += "-"
                 else:
@@ -148,11 +124,9 @@ def value(values, row, column):
     """Returns the value of the given cell"""
     return values[7 * row + column]
 
-def connects(regions, coord1, coord2):
-    """Returns true if the cell at coord1 and the cell at coord2 belong to the same region, false otherwise"""
-    region1 = regions[7 * coord1[0] + coord1[1]]
-    region2 = regions[7 * coord2[0] + coord2[1]]
-    return region1 == region2
+def connects(connections, row, column, direction):
+    """Returns true if the cell has a connection in the given direction(s)"""
+    return connections[7 * row + column] == direction or connections[7 * row + column] == "both"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
