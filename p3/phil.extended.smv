@@ -49,33 +49,43 @@ SPEC AG(p1.state = hungry -> AF(p1.state = eating)) -- philosopher 1 can eat eve
 SPEC AG(p2.state = hungry -> AF(p2.state = eating)) -- philosopher 2 can eat eventually, if desired
 SPEC AG(p3.state = hungry -> AF(p3.state = eating)) -- philosopher 3 can eat eventually, if desired
 SPEC AG(p4.state = hungry -> AF(p4.state = eating)) -- philosopher 4 can eat eventually, if desired
--- non-blocking
-SPEC AG(p0.state = thinking -> EX(p0.state = hungry))
-SPEC AG(p1.state = thinking -> EX(p1.state = hungry))
-SPEC AG(p2.state = thinking -> EX(p2.state = hungry))
-SPEC AG(p3.state = thinking -> EX(p3.state = hungry))
-SPEC AG(p4.state = thinking -> EX(p4.state = hungry))
--- no strict sequencing
-SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p1.state = eating) U p0.state = eating ]))]))
-SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p2.state = eating) U p0.state = eating ]))]))
-SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p3.state = eating) U p0.state = eating ]))]))
+
+
+
+-- non-blocking 
+SPEC AG(p0.state = thinking -> EX(p0.state = hungry)) -- philosopher 0 can always request to eat (can always get hungry)
+SPEC AG(p1.state = thinking -> EX(p1.state = hungry)) -- philosopher 1 can always request to eat (can always get hungry)
+SPEC AG(p2.state = thinking -> EX(p2.state = hungry)) -- philosopher 2 can always request to eat (can always get hungry)
+SPEC AG(p3.state = thinking -> EX(p3.state = hungry)) -- philosopher 3 can always request to eat (can always get hungry)
+SPEC AG(p4.state = thinking -> EX(p4.state = hungry)) -- philosopher 4 can always request to eat (can always get hungry)
+
+
+-- no strict sequencing (meaning no philosopher can eat before another philosopher has had a chance to eat)
+-- philosopher 0 can eat before philosopher 1, 2, 3, 4
+SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p1.state = eating) U p0.state = eating ]))])) -- philosopher 0 can eat before philosopher 1
+SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p2.state = eating) U p0.state = eating ]))])) -- philosopher 0 can eat before philosopher 2
+SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p3.state = eating) U p0.state = eating ]))])) -- philosopher 0 can eat before philosopher 3
 SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p4.state = eating) U p0.state = eating ]))]))
 
+-- philosopher 1 can eat before philosopher 0, 2, 3, 4
 SPEC EF (p1.state = eating & EF (A [ p1.state = eating U (!(p1.state = eating) & EF (A [ !(p2.state = eating) U p1.state = eating ]))]))
 SPEC EF (p1.state = eating & EF (A [ p1.state = eating U (!(p1.state = eating) & EF (A [ !(p3.state = eating) U p1.state = eating ]))]))
-SPEC EF (p1.state = eating & EF (A [ p1.state = eating U (!(p1.state = eating) & EF (A [ !(p4.state = eating) U p1.state = eating ]))]))
-SPEC EF (p1.state = eating & EF (A [ p1.state = eating U (!(p1.state = eating) & EF (A [ !(p0.state = eating) U p1.state = eating ]))]))
+SPEC EF (p1.state = eating & EF (A [ p1.state = eating U (!(p1.state = eating) & EF (A [ !(p4.state = eating) U p1.state = eating ]))])) -- philosopher 1 can eat before philosopher 4
+SPEC EF (p1.state = eating & EF (A [ p1.state = eating U (!(p1.state = eating) & EF (A [ !(p0.state = eating) U p1.state = eating ]))])) -- philosopher 1 can eat before philosopher 0
 
+-- philosopher 2 can eat before philosopher 0, 1, 3, 4
 SPEC EF (p2.state = eating & EF (A [ p2.state = eating U (!(p2.state = eating) & EF (A [ !(p3.state = eating) U p2.state = eating ]))]))
 SPEC EF (p2.state = eating & EF (A [ p2.state = eating U (!(p2.state = eating) & EF (A [ !(p4.state = eating) U p2.state = eating ]))]))
 SPEC EF (p2.state = eating & EF (A [ p2.state = eating U (!(p2.state = eating) & EF (A [ !(p0.state = eating) U p2.state = eating ]))]))
 SPEC EF (p2.state = eating & EF (A [ p2.state = eating U (!(p2.state = eating) & EF (A [ !(p1.state = eating) U p2.state = eating ]))]))
 
+-- philosopher 3 can eat before philosopher 0, 1, 2, 4
 SPEC EF (p3.state = eating & EF (A [ p3.state = eating U (!(p3.state = eating) & EF (A [ !(p4.state = eating) U p3.state = eating ]))]))
 SPEC EF (p3.state = eating & EF (A [ p3.state = eating U (!(p3.state = eating) & EF (A [ !(p0.state = eating) U p3.state = eating ]))]))
 SPEC EF (p3.state = eating & EF (A [ p3.state = eating U (!(p3.state = eating) & EF (A [ !(p1.state = eating) U p3.state = eating ]))]))
 SPEC EF (p3.state = eating & EF (A [ p3.state = eating U (!(p3.state = eating) & EF (A [ !(p2.state = eating) U p3.state = eating ]))]))
 
+-- philosopher 4 can eat before philosopher 0, 1, 2, 3
 SPEC EF (p4.state = eating & EF (A [ p4.state = eating U (!(p4.state = eating) & EF (A [ !(p0.state = eating) U p4.state = eating ]))]))
 SPEC EF (p4.state = eating & EF (A [ p4.state = eating U (!(p4.state = eating) & EF (A [ !(p1.state = eating) U p4.state = eating ]))]))
 SPEC EF (p4.state = eating & EF (A [ p4.state = eating U (!(p4.state = eating) & EF (A [ !(p2.state = eating) U p4.state = eating ]))]))
