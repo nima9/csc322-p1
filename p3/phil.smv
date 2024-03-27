@@ -86,7 +86,7 @@ FAIRNESS !(state = eating)
 -- add specifications here 
 
 -- safety:
-SPEC AG!((p4.state = eating) & (p0.state = eating)) -- chopstick 0 is held by only one person
+SPEC AG!(p4.gotright & p0.gotleft) -- chopstick 0 is held by only one person
 SPEC AG!((p0.state = eating) & (p1.state = eating)) -- chopstick 1 is held by only one person
 SPEC AG!((p1.state = eating) & (p2.state = eating)) -- chopstick 2 is held by only one person
 SPEC AG!((p2.state = eating) & (p3.state = eating)) -- chopstick 3 is held by only one person
