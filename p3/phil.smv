@@ -70,7 +70,6 @@ ASSIGN
 
   next(left)  := case
     (state = done) : nobody; -- drop chopstick
-    (!rightfree & !gotright) : nobody
     --
     -- if hungry and left chopstick if free, take it
     --
@@ -80,7 +79,6 @@ ASSIGN
 
   next(right) := case
     (state = done) : nobody; -- drop chopstick
-    (!leftfree & !gotleft) : nobody
     --
     -- if hungry and have left chopstick and right is free, take it
     --
