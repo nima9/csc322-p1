@@ -74,129 +74,104 @@ Trace Type: Counterexample
     p2.running = FALSE
     p1.running = FALSE
     p0.running = TRUE
+  -- Loop starts here
   -> State: 1.2 <-
     p0.state = hungry
   -> Input: 1.3 <-
-    _process_selector_ = p4
-    p4.running = TRUE
-    p0.running = FALSE
-  -> State: 1.3 <-
-  -> Input: 1.4 <-
-    _process_selector_ = p3
-    p4.running = FALSE
-    p3.running = TRUE
-  -> State: 1.4 <-
-  -> Input: 1.5 <-
-    _process_selector_ = p2
-    p3.running = FALSE
-    p2.running = TRUE
-  -> State: 1.5 <-
-  -> Input: 1.6 <-
-    _process_selector_ = p1
-    p2.running = FALSE
-    p1.running = TRUE
-  -> State: 1.6 <-
-  -> Input: 1.7 <-
-    _process_selector_ = p0
-    p1.running = FALSE
-    p0.running = TRUE
-  -> State: 1.7 <-
-    chopsticks[0] = 0
-    p0.leftfree = FALSE
-    p0.gotleft = TRUE
-    p4.rightfree = FALSE
-  -> Input: 1.8 <-
-    _process_selector_ = p1
-    p1.running = TRUE
-    p0.running = FALSE
-  -- Loop starts here
-  -> State: 1.8 <-
-    p1.state = hungry
-  -> Input: 1.9 <-
     _process_selector_ = main
     running = TRUE
-    p1.running = FALSE
+    p0.running = FALSE
   -- Loop starts here
-  -> State: 1.9 <-
-  -> Input: 1.10 <-
+  -> State: 1.3 <-
+  -> Input: 1.4 <-
     _process_selector_ = p4
     running = FALSE
     p4.running = TRUE
+  -- Loop starts here
+  -> State: 1.4 <-
+  -> Input: 1.5 <-
+    _process_selector_ = main
+    running = TRUE
+    p4.running = FALSE
+  -- Loop starts here
+  -> State: 1.5 <-
+  -> Input: 1.6 <-
+    _process_selector_ = p3
+    running = FALSE
+    p3.running = TRUE
+  -- Loop starts here
+  -> State: 1.6 <-
+  -> Input: 1.7 <-
+    _process_selector_ = main
+    running = TRUE
+    p3.running = FALSE
+  -- Loop starts here
+  -> State: 1.7 <-
+  -> Input: 1.8 <-
+    _process_selector_ = p2
+    running = FALSE
+    p2.running = TRUE
+  -- Loop starts here
+  -> State: 1.8 <-
+  -> Input: 1.9 <-
+    _process_selector_ = main
+    running = TRUE
+    p2.running = FALSE
+  -- Loop starts here
+  -> State: 1.9 <-
+  -> Input: 1.10 <-
+    _process_selector_ = p1
+    running = FALSE
+    p1.running = TRUE
   -- Loop starts here
   -> State: 1.10 <-
   -> Input: 1.11 <-
     _process_selector_ = main
     running = TRUE
-    p4.running = FALSE
+    p1.running = FALSE
   -- Loop starts here
   -> State: 1.11 <-
   -> Input: 1.12 <-
-    _process_selector_ = p3
+    _process_selector_ = p4
     running = FALSE
-    p3.running = TRUE
-  -- Loop starts here
+    p4.running = TRUE
   -> State: 1.12 <-
+    p4.state = hungry
   -> Input: 1.13 <-
-    _process_selector_ = main
-    running = TRUE
-    p3.running = FALSE
-  -- Loop starts here
   -> State: 1.13 <-
+    chopsticks[0] = 4
+    chopsticks[4] = 4
+    p0.leftfree = FALSE
+    p3.rightfree = FALSE
+    p4.rightfree = FALSE
+    p4.leftfree = FALSE
+    p4.gotright = TRUE
+    p4.gotleft = TRUE
   -> Input: 1.14 <-
-    _process_selector_ = p2
-    running = FALSE
-    p2.running = TRUE
-  -- Loop starts here
+    _process_selector_ = p0
+    p4.running = FALSE
+    p0.running = TRUE
   -> State: 1.14 <-
   -> Input: 1.15 <-
-    _process_selector_ = main
-    running = TRUE
-    p2.running = FALSE
-  -- Loop starts here
-  -> State: 1.15 <-
-  -> Input: 1.16 <-
-    _process_selector_ = p1
-    running = FALSE
-    p1.running = TRUE
-  -> State: 1.16 <-
-    chopsticks[1] = 1
-    p0.rightfree = FALSE
-    p1.leftfree = FALSE
-    p1.gotleft = TRUE
-  -> Input: 1.17 <-
-    _process_selector_ = p0
-    p1.running = FALSE
-    p0.running = TRUE
-  -> State: 1.17 <-
-  -> Input: 1.18 <-
-    _process_selector_ = p1
-    p1.running = TRUE
+    _process_selector_ = p4
+    p4.running = TRUE
     p0.running = FALSE
-  -> State: 1.18 <-
-    chopsticks[2] = 1
-    p1.rightfree = FALSE
-    p1.gotright = TRUE
-    p2.leftfree = FALSE
-  -> Input: 1.19 <-
-  -> State: 1.19 <-
-    p1.state = eating
-  -> Input: 1.20 <-
-  -> State: 1.20 <-
-    p1.state = done
-  -> Input: 1.21 <-
-  -> State: 1.21 <-
-    chopsticks[1] = nobody
-    chopsticks[2] = nobody
-    p1.state = thinking
-    p0.rightfree = TRUE
-    p1.rightfree = TRUE
-    p1.leftfree = TRUE
-    p1.gotright = FALSE
-    p1.gotleft = FALSE
-    p2.leftfree = TRUE
-  -> Input: 1.22 <-
-  -> State: 1.22 <-
-    p1.state = hungry
+  -> State: 1.15 <-
+    p4.state = eating
+  -> Input: 1.16 <-
+  -> State: 1.16 <-
+    p4.state = done
+  -> Input: 1.17 <-
+  -> State: 1.17 <-
+    chopsticks[0] = nobody
+    chopsticks[4] = nobody
+    p4.state = thinking
+    p0.leftfree = TRUE
+    p3.rightfree = TRUE
+    p4.rightfree = TRUE
+    p4.leftfree = TRUE
+    p4.gotright = FALSE
+    p4.gotleft = FALSE
 -- specification AG (p1.state = hungry -> AF p1.state = eating)  is false
 -- as demonstrated by the following execution sequence
 Trace Description: CTL Counterexample 
@@ -240,170 +215,86 @@ Trace Type: Counterexample
     p2.running = FALSE
     p1.running = TRUE
     p0.running = FALSE
+  -- Loop starts here
   -> State: 2.2 <-
     p1.state = hungry
   -> Input: 2.3 <-
     _process_selector_ = p4
     p4.running = TRUE
     p1.running = FALSE
+  -- Loop starts here
   -> State: 2.3 <-
   -> Input: 2.4 <-
+  -- Loop starts here
+  -> State: 2.4 <-
+  -> Input: 2.5 <-
+  -- Loop starts here
+  -> State: 2.5 <-
+  -> Input: 2.6 <-
     _process_selector_ = p3
     p4.running = FALSE
     p3.running = TRUE
-  -> State: 2.4 <-
-  -> Input: 2.5 <-
-    _process_selector_ = p2
-    p3.running = FALSE
-    p2.running = TRUE
-  -> State: 2.5 <-
-  -> Input: 2.6 <-
-    _process_selector_ = p1
-    p2.running = FALSE
-    p1.running = TRUE
+  -- Loop starts here
   -> State: 2.6 <-
-    chopsticks[1] = 1
-    p0.rightfree = FALSE
-    p1.leftfree = FALSE
-    p1.gotleft = TRUE
   -> Input: 2.7 <-
     _process_selector_ = p4
     p4.running = TRUE
-    p1.running = FALSE
+    p3.running = FALSE
+  -- Loop starts here
   -> State: 2.7 <-
   -> Input: 2.8 <-
-    _process_selector_ = p0
+    _process_selector_ = p2
     p4.running = FALSE
-    p0.running = TRUE
+    p2.running = TRUE
+  -- Loop starts here
   -> State: 2.8 <-
   -> Input: 2.9 <-
-  -> State: 2.9 <-
-    p0.state = hungry
-  -> Input: 2.10 <-
     _process_selector_ = p4
     p4.running = TRUE
-    p0.running = FALSE
+    p2.running = FALSE
+  -- Loop starts here
+  -> State: 2.9 <-
+  -> Input: 2.10 <-
+    _process_selector_ = p0
+    p4.running = FALSE
+    p0.running = TRUE
   -> State: 2.10 <-
+    p0.state = hungry
   -> Input: 2.11 <-
   -> State: 2.11 <-
+    chopsticks[0] = 0
+    chopsticks[1] = 0
+    p0.rightfree = FALSE
+    p0.leftfree = FALSE
+    p0.gotright = TRUE
+    p0.gotleft = TRUE
+    p1.leftfree = FALSE
+    p4.rightfree = FALSE
   -> Input: 2.12 <-
+    _process_selector_ = p1
+    p1.running = TRUE
+    p0.running = FALSE
   -> State: 2.12 <-
   -> Input: 2.13 <-
-    _process_selector_ = p3
-    p4.running = FALSE
-    p3.running = TRUE
+    _process_selector_ = p0
+    p1.running = FALSE
+    p0.running = TRUE
   -> State: 2.13 <-
+    p0.state = eating
   -> Input: 2.14 <-
-    _process_selector_ = p4
-    p4.running = TRUE
-    p3.running = FALSE
   -> State: 2.14 <-
+    p0.state = done
   -> Input: 2.15 <-
-    _process_selector_ = p2
-    p4.running = FALSE
-    p2.running = TRUE
   -> State: 2.15 <-
-  -> Input: 2.16 <-
-    _process_selector_ = p4
-    p4.running = TRUE
-    p2.running = FALSE
-  -> State: 2.16 <-
-  -> Input: 2.17 <-
-    _process_selector_ = p2
-    p4.running = FALSE
-    p2.running = TRUE
-  -> State: 2.17 <-
-    p2.state = hungry
-  -> Input: 2.18 <-
-  -> State: 2.18 <-
-    chopsticks[2] = 2
-    p1.rightfree = FALSE
-    p2.leftfree = FALSE
-    p2.gotleft = TRUE
-  -> Input: 2.19 <-
-    _process_selector_ = p1
-    p2.running = FALSE
-    p1.running = TRUE
-  -> State: 2.19 <-
-  -> Input: 2.20 <-
-    _process_selector_ = p0
-    p1.running = FALSE
-    p0.running = TRUE
-  -> State: 2.20 <-
-    chopsticks[0] = 0
-    p0.leftfree = FALSE
-    p0.gotleft = TRUE
-    p4.rightfree = FALSE
-  -> Input: 2.21 <-
-    _process_selector_ = p2
-    p2.running = TRUE
-    p0.running = FALSE
-  -- Loop starts here
-  -> State: 2.21 <-
-    chopsticks[3] = 2
-    p2.rightfree = FALSE
-    p2.gotright = TRUE
-    p3.leftfree = FALSE
-  -> Input: 2.22 <-
-    _process_selector_ = p4
-    p4.running = TRUE
-    p2.running = FALSE
-  -- Loop starts here
-  -> State: 2.22 <-
-  -> Input: 2.23 <-
-    _process_selector_ = p3
-    p4.running = FALSE
-    p3.running = TRUE
-  -- Loop starts here
-  -> State: 2.23 <-
-  -> Input: 2.24 <-
-    _process_selector_ = p2
-    p3.running = FALSE
-    p2.running = TRUE
-  -> State: 2.24 <-
-    p2.state = eating
-  -> Input: 2.25 <-
-    _process_selector_ = p1
-    p2.running = FALSE
-    p1.running = TRUE
-  -> State: 2.25 <-
-  -> Input: 2.26 <-
-    _process_selector_ = p0
-    p1.running = FALSE
-    p0.running = TRUE
-  -> State: 2.26 <-
-  -> Input: 2.27 <-
-    _process_selector_ = p2
-    p2.running = TRUE
-    p0.running = FALSE
-  -> State: 2.27 <-
-    p2.state = done
-  -> Input: 2.28 <-
-  -> State: 2.28 <-
-    chopsticks[2] = nobody
-    chopsticks[3] = nobody
-    p2.state = thinking
-    p1.rightfree = TRUE
-    p2.rightfree = TRUE
-    p2.leftfree = TRUE
-    p2.gotright = FALSE
-    p2.gotleft = FALSE
-    p3.leftfree = TRUE
-  -> Input: 2.29 <-
-  -> State: 2.29 <-
-    p2.state = hungry
-  -> Input: 2.30 <-
-  -> State: 2.30 <-
-    chopsticks[2] = 2
-    p1.rightfree = FALSE
-    p2.leftfree = FALSE
-    p2.gotleft = TRUE
-  -> Input: 2.31 <-
-  -> State: 2.31 <-
-    chopsticks[3] = 2
-    p2.rightfree = FALSE
-    p2.gotright = TRUE
-    p3.leftfree = FALSE
+    chopsticks[0] = nobody
+    chopsticks[1] = nobody
+    p0.state = thinking
+    p0.rightfree = TRUE
+    p0.leftfree = TRUE
+    p0.gotright = FALSE
+    p0.gotleft = FALSE
+    p1.leftfree = TRUE
+    p4.rightfree = TRUE
 -- specification AG (p2.state = hungry -> AF p2.state = eating)  is false
 -- as demonstrated by the following execution sequence
 Trace Description: CTL Counterexample 
@@ -447,170 +338,88 @@ Trace Type: Counterexample
     p2.running = TRUE
     p1.running = FALSE
     p0.running = FALSE
+  -- Loop starts here
   -> State: 3.2 <-
     p2.state = hungry
   -> Input: 3.3 <-
-    _process_selector_ = p4
-    p4.running = TRUE
+    _process_selector_ = main
+    running = TRUE
     p2.running = FALSE
+  -- Loop starts here
   -> State: 3.3 <-
   -> Input: 3.4 <-
-    _process_selector_ = p3
-    p4.running = FALSE
-    p3.running = TRUE
-  -> State: 3.4 <-
-  -> Input: 3.5 <-
-    _process_selector_ = p2
-    p3.running = FALSE
-    p2.running = TRUE
-  -> State: 3.5 <-
-    chopsticks[2] = 2
-    p1.rightfree = FALSE
-    p2.leftfree = FALSE
-    p2.gotleft = TRUE
-  -> Input: 3.6 <-
-    _process_selector_ = main
-    running = TRUE
-    p2.running = FALSE
-  -> State: 3.6 <-
-  -> Input: 3.7 <-
-    _process_selector_ = p1
-    running = FALSE
-    p1.running = TRUE
-  -> State: 3.7 <-
-  -> Input: 3.8 <-
-    _process_selector_ = main
-    running = TRUE
-    p1.running = FALSE
-  -> State: 3.8 <-
-  -> Input: 3.9 <-
-    _process_selector_ = p0
-    running = FALSE
-    p0.running = TRUE
-  -> State: 3.9 <-
-  -> Input: 3.10 <-
-  -- Loop starts here
-  -> State: 3.10 <-
-    p0.state = hungry
-  -> Input: 3.11 <-
-    _process_selector_ = main
-    running = TRUE
-    p0.running = FALSE
-  -- Loop starts here
-  -> State: 3.11 <-
-  -> Input: 3.12 <-
     _process_selector_ = p4
     running = FALSE
     p4.running = TRUE
   -- Loop starts here
-  -> State: 3.12 <-
-  -> Input: 3.13 <-
+  -> State: 3.4 <-
+  -> Input: 3.5 <-
     _process_selector_ = main
     running = TRUE
     p4.running = FALSE
   -- Loop starts here
-  -> State: 3.13 <-
-  -> Input: 3.14 <-
+  -> State: 3.5 <-
+  -> Input: 3.6 <-
     _process_selector_ = p3
     running = FALSE
     p3.running = TRUE
   -- Loop starts here
-  -> State: 3.14 <-
-  -> Input: 3.15 <-
+  -> State: 3.6 <-
+  -> Input: 3.7 <-
     _process_selector_ = main
     running = TRUE
     p3.running = FALSE
   -- Loop starts here
-  -> State: 3.15 <-
-  -> Input: 3.16 <-
-    _process_selector_ = p3
+  -> State: 3.7 <-
+  -> Input: 3.8 <-
+    _process_selector_ = p1
     running = FALSE
-    p3.running = TRUE
-  -> State: 3.16 <-
-    p3.state = hungry
-  -> Input: 3.17 <-
-  -> State: 3.17 <-
-    chopsticks[3] = 3
-    p2.rightfree = FALSE
-    p3.leftfree = FALSE
-    p3.gotleft = TRUE
-  -> Input: 3.18 <-
+    p1.running = TRUE
+  -> State: 3.8 <-
+    p1.state = hungry
+  -> Input: 3.9 <-
+  -> State: 3.9 <-
+    chopsticks[1] = 1
+    chopsticks[2] = 1
+    p0.rightfree = FALSE
+    p1.rightfree = FALSE
+    p1.leftfree = FALSE
+    p1.gotright = TRUE
+    p1.gotleft = TRUE
+    p2.leftfree = FALSE
+  -> Input: 3.10 <-
     _process_selector_ = p2
-    p3.running = FALSE
     p2.running = TRUE
-  -> State: 3.18 <-
-  -> Input: 3.19 <-
+    p1.running = FALSE
+  -> State: 3.10 <-
+  -> Input: 3.11 <-
     _process_selector_ = p1
     p2.running = FALSE
     p1.running = TRUE
-  -> State: 3.19 <-
-  -> Input: 3.20 <-
+  -> State: 3.11 <-
+    p1.state = eating
+  -> Input: 3.12 <-
     _process_selector_ = p0
     p1.running = FALSE
     p0.running = TRUE
-  -> State: 3.20 <-
-    chopsticks[0] = 0
-    p0.leftfree = FALSE
-    p0.gotleft = TRUE
-    p4.rightfree = FALSE
-  -> Input: 3.21 <-
-  -> State: 3.21 <-
-    chopsticks[1] = 0
-    p0.rightfree = FALSE
-    p0.gotright = TRUE
-    p1.leftfree = FALSE
-  -> Input: 3.22 <-
-    _process_selector_ = p3
-    p3.running = TRUE
+  -> State: 3.12 <-
+  -> Input: 3.13 <-
+    _process_selector_ = p1
+    p1.running = TRUE
     p0.running = FALSE
-  -> State: 3.22 <-
-    chopsticks[4] = 3
-    p3.rightfree = FALSE
-    p3.gotright = TRUE
-    p4.leftfree = FALSE
-  -> Input: 3.23 <-
-    _process_selector_ = p0
-    p3.running = FALSE
-    p0.running = TRUE
-  -> State: 3.23 <-
-    p0.state = eating
-  -> Input: 3.24 <-
-  -> State: 3.24 <-
-    p0.state = done
-  -> Input: 3.25 <-
-  -> State: 3.25 <-
-    chopsticks[0] = nobody
+  -> State: 3.13 <-
+    p1.state = done
+  -> Input: 3.14 <-
+  -> State: 3.14 <-
     chopsticks[1] = nobody
-    p0.state = thinking
+    chopsticks[2] = nobody
+    p1.state = thinking
     p0.rightfree = TRUE
-    p0.leftfree = TRUE
-    p0.gotright = FALSE
-    p0.gotleft = FALSE
+    p1.rightfree = TRUE
     p1.leftfree = TRUE
-    p4.rightfree = TRUE
-  -> Input: 3.26 <-
-  -> State: 3.26 <-
-    p0.state = hungry
-  -> Input: 3.27 <-
-    _process_selector_ = p3
-    p3.running = TRUE
-    p0.running = FALSE
-  -> State: 3.27 <-
-    p3.state = eating
-  -> Input: 3.28 <-
-  -> State: 3.28 <-
-    p3.state = done
-  -> Input: 3.29 <-
-  -> State: 3.29 <-
-    chopsticks[3] = nobody
-    chopsticks[4] = nobody
-    p3.state = thinking
-    p2.rightfree = TRUE
-    p3.rightfree = TRUE
-    p3.leftfree = TRUE
-    p3.gotright = FALSE
-    p3.gotleft = FALSE
-    p4.leftfree = TRUE
+    p1.gotright = FALSE
+    p1.gotleft = FALSE
+    p2.leftfree = TRUE
 -- specification AG (p3.state = hungry -> AF p3.state = eating)  is false
 -- as demonstrated by the following execution sequence
 Trace Description: CTL Counterexample 
@@ -654,150 +463,65 @@ Trace Type: Counterexample
     p2.running = FALSE
     p1.running = FALSE
     p0.running = FALSE
+  -- Loop starts here
   -> State: 4.2 <-
     p3.state = hungry
   -> Input: 4.3 <-
     _process_selector_ = p4
     p4.running = TRUE
     p3.running = FALSE
+  -- Loop starts here
   -> State: 4.3 <-
   -> Input: 4.4 <-
+  -- Loop starts here
+  -> State: 4.4 <-
+  -> Input: 4.5 <-
+  -- Loop starts here
+  -> State: 4.5 <-
+  -> Input: 4.6 <-
+  -> State: 4.6 <-
+    p4.state = hungry
+  -> Input: 4.7 <-
+  -> State: 4.7 <-
+    chopsticks[0] = 4
+    chopsticks[4] = 4
+    p0.leftfree = FALSE
+    p3.rightfree = FALSE
+    p4.rightfree = FALSE
+    p4.leftfree = FALSE
+    p4.gotright = TRUE
+    p4.gotleft = TRUE
+  -> Input: 4.8 <-
     _process_selector_ = p3
     p4.running = FALSE
     p3.running = TRUE
-  -> State: 4.4 <-
-    chopsticks[3] = 3
-    p2.rightfree = FALSE
-    p3.leftfree = FALSE
-    p3.gotleft = TRUE
-  -> Input: 4.5 <-
-    _process_selector_ = p4
-    p4.running = TRUE
-    p3.running = FALSE
-  -> State: 4.5 <-
-  -> Input: 4.6 <-
-    _process_selector_ = p2
-    p4.running = FALSE
-    p2.running = TRUE
-  -> State: 4.6 <-
-  -> Input: 4.7 <-
-    _process_selector_ = p4
-    p4.running = TRUE
-    p2.running = FALSE
-  -> State: 4.7 <-
-  -> Input: 4.8 <-
-    _process_selector_ = p1
-    p4.running = FALSE
-    p1.running = TRUE
   -> State: 4.8 <-
   -> Input: 4.9 <-
-    _process_selector_ = p4
-    p4.running = TRUE
-    p1.running = FALSE
+    _process_selector_ = p2
+    p3.running = FALSE
+    p2.running = TRUE
   -> State: 4.9 <-
   -> Input: 4.10 <-
-    _process_selector_ = p0
-    p4.running = FALSE
-    p0.running = TRUE
+    _process_selector_ = p1
+    p2.running = FALSE
+    p1.running = TRUE
   -> State: 4.10 <-
   -> Input: 4.11 <-
-  -- Loop starts here
+    _process_selector_ = p0
+    p1.running = FALSE
+    p0.running = TRUE
   -> State: 4.11 <-
-    p0.state = hungry
   -> Input: 4.12 <-
     _process_selector_ = p4
     p4.running = TRUE
     p0.running = FALSE
-  -- Loop starts here
   -> State: 4.12 <-
-  -> Input: 4.13 <-
-  -- Loop starts here
-  -> State: 4.13 <-
-  -> Input: 4.14 <-
-  -- Loop starts here
-  -> State: 4.14 <-
-  -> Input: 4.15 <-
-  -> State: 4.15 <-
-    p4.state = hungry
-  -> Input: 4.16 <-
-  -> State: 4.16 <-
-    chopsticks[4] = 4
-    p3.rightfree = FALSE
-    p4.leftfree = FALSE
-    p4.gotleft = TRUE
-  -> Input: 4.17 <-
-    _process_selector_ = p3
-    p4.running = FALSE
-    p3.running = TRUE
-  -> State: 4.17 <-
-  -> Input: 4.18 <-
-    _process_selector_ = p2
-    p3.running = FALSE
-    p2.running = TRUE
-  -> State: 4.18 <-
-  -> Input: 4.19 <-
-    _process_selector_ = p1
-    p2.running = FALSE
-    p1.running = TRUE
-  -> State: 4.19 <-
-  -> Input: 4.20 <-
-    _process_selector_ = p0
-    p1.running = FALSE
-    p0.running = TRUE
-  -> State: 4.20 <-
-    chopsticks[0] = 0
-    p0.leftfree = FALSE
-    p0.gotleft = TRUE
-    p4.rightfree = FALSE
-  -> Input: 4.21 <-
-  -> State: 4.21 <-
-    chopsticks[1] = 0
-    p0.rightfree = FALSE
-    p0.gotright = TRUE
-    p1.leftfree = FALSE
-  -> Input: 4.22 <-
-  -> State: 4.22 <-
-    p0.state = eating
-  -> Input: 4.23 <-
-  -> State: 4.23 <-
-    p0.state = done
-  -> Input: 4.24 <-
-  -> State: 4.24 <-
-    chopsticks[0] = nobody
-    chopsticks[1] = nobody
-    p0.state = thinking
-    p0.rightfree = TRUE
-    p0.leftfree = TRUE
-    p0.gotright = FALSE
-    p0.gotleft = FALSE
-    p1.leftfree = TRUE
-    p4.rightfree = TRUE
-  -> Input: 4.25 <-
-    _process_selector_ = p4
-    p4.running = TRUE
-    p0.running = FALSE
-  -> State: 4.25 <-
-    chopsticks[0] = 4
-    p0.leftfree = FALSE
-    p4.rightfree = FALSE
-    p4.gotright = TRUE
-  -> Input: 4.26 <-
-    _process_selector_ = p0
-    p4.running = FALSE
-    p0.running = TRUE
-  -> State: 4.26 <-
-    p0.state = hungry
-  -> Input: 4.27 <-
-    _process_selector_ = p4
-    p4.running = TRUE
-    p0.running = FALSE
-  -> State: 4.27 <-
     p4.state = eating
-  -> Input: 4.28 <-
-  -> State: 4.28 <-
+  -> Input: 4.13 <-
+  -> State: 4.13 <-
     p4.state = done
-  -> Input: 4.29 <-
-  -> State: 4.29 <-
+  -> Input: 4.14 <-
+  -> State: 4.14 <-
     chopsticks[0] = nobody
     chopsticks[4] = nobody
     p4.state = thinking
@@ -850,110 +574,62 @@ Trace Type: Counterexample
     p2.running = FALSE
     p1.running = FALSE
     p0.running = FALSE
+  -- Loop starts here
   -> State: 5.2 <-
     p4.state = hungry
   -> Input: 5.3 <-
-  -> State: 5.3 <-
-    chopsticks[4] = 4
-    p3.rightfree = FALSE
-    p4.leftfree = FALSE
-    p4.gotleft = TRUE
-  -> Input: 5.4 <-
     _process_selector_ = main
     running = TRUE
     p4.running = FALSE
+  -- Loop starts here
+  -> State: 5.3 <-
+  -> Input: 5.4 <-
+    _process_selector_ = p0
+    running = FALSE
+    p0.running = TRUE
   -> State: 5.4 <-
-  -> Input: 5.5 <-
-    _process_selector_ = p3
-    running = FALSE
-    p3.running = TRUE
-  -> State: 5.5 <-
-  -> Input: 5.6 <-
-    _process_selector_ = main
-    running = TRUE
-    p3.running = FALSE
-  -> State: 5.6 <-
-  -> Input: 5.7 <-
-    _process_selector_ = p2
-    running = FALSE
-    p2.running = TRUE
-  -> State: 5.7 <-
-  -> Input: 5.8 <-
-    _process_selector_ = main
-    running = TRUE
-    p2.running = FALSE
-  -> State: 5.8 <-
-  -> Input: 5.9 <-
-    _process_selector_ = p1
-    running = FALSE
-    p1.running = TRUE
-  -> State: 5.9 <-
-  -> Input: 5.10 <-
-    _process_selector_ = main
-    running = TRUE
-    p1.running = FALSE
-  -> State: 5.10 <-
-  -> Input: 5.11 <-
-    _process_selector_ = p0
-    running = FALSE
-    p0.running = TRUE
-  -> State: 5.11 <-
-  -> Input: 5.12 <-
-  -- Loop starts here
-  -> State: 5.12 <-
     p0.state = hungry
-  -> Input: 5.13 <-
-    _process_selector_ = main
-    running = TRUE
-    p0.running = FALSE
-  -- Loop starts here
-  -> State: 5.13 <-
-  -> Input: 5.14 <-
-    _process_selector_ = p0
-    running = FALSE
-    p0.running = TRUE
-  -> State: 5.14 <-
+  -> Input: 5.5 <-
+  -> State: 5.5 <-
     chopsticks[0] = 0
+    chopsticks[1] = 0
+    p0.rightfree = FALSE
     p0.leftfree = FALSE
+    p0.gotright = TRUE
     p0.gotleft = TRUE
+    p1.leftfree = FALSE
     p4.rightfree = FALSE
-  -> Input: 5.15 <-
+  -> Input: 5.6 <-
     _process_selector_ = p4
     p4.running = TRUE
     p0.running = FALSE
-  -> State: 5.15 <-
-  -> Input: 5.16 <-
+  -> State: 5.6 <-
+  -> Input: 5.7 <-
     _process_selector_ = p3
     p4.running = FALSE
     p3.running = TRUE
-  -> State: 5.16 <-
-  -> Input: 5.17 <-
+  -> State: 5.7 <-
+  -> Input: 5.8 <-
     _process_selector_ = p2
     p3.running = FALSE
     p2.running = TRUE
-  -> State: 5.17 <-
-  -> Input: 5.18 <-
+  -> State: 5.8 <-
+  -> Input: 5.9 <-
     _process_selector_ = p1
     p2.running = FALSE
     p1.running = TRUE
-  -> State: 5.18 <-
-  -> Input: 5.19 <-
+  -> State: 5.9 <-
+  -> Input: 5.10 <-
     _process_selector_ = p0
     p1.running = FALSE
     p0.running = TRUE
-  -> State: 5.19 <-
-    chopsticks[1] = 0
-    p0.rightfree = FALSE
-    p0.gotright = TRUE
-    p1.leftfree = FALSE
-  -> Input: 5.20 <-
-  -> State: 5.20 <-
+  -> State: 5.10 <-
     p0.state = eating
-  -> Input: 5.21 <-
-  -> State: 5.21 <-
+  -> Input: 5.11 <-
+  -> State: 5.11 <-
     p0.state = done
-  -> Input: 5.22 <-
-  -> State: 5.22 <-
+  -> Input: 5.12 <-
+  -> State: 5.12 <-
     chopsticks[0] = nobody
     chopsticks[1] = nobody
     p0.state = thinking
@@ -963,6 +639,3 @@ Trace Type: Counterexample
     p0.gotleft = FALSE
     p1.leftfree = TRUE
     p4.rightfree = TRUE
-  -> Input: 5.23 <-
-  -> State: 5.23 <-
-    p0.state = hungry
