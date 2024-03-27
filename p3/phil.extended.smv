@@ -1,5 +1,5 @@
 --
--- CSC 322 Project 3
+-- CSC 322 Project 3 Extended
 --
 -- Name: Alexander Lambert 
 -- Vnum: V00956639
@@ -10,4 +10,101 @@
 -- Name: Nima Mohajeri 
 -- Vnum: V00857216
 --
---
+MODULE main
+  
+VAR
+  chopsticks : array 0..4 of {nobody,0,1,2,3,4}; -- who holds the chopstick.
+  --
+  -- Philosopher i has chopstick i on left and chopstick
+  -- (i + 1) mod 5 on right
+  --
+  p0 : process philosopher(0,chopsticks[0],chopsticks[1]);
+  p1 : process philosopher(1,chopsticks[1],chopsticks[2]);
+  p2 : process philosopher(2,chopsticks[2],chopsticks[3]);
+  p3 : process philosopher(3,chopsticks[3],chopsticks[4]);
+  p4 : process philosopher(4,chopsticks[4],chopsticks[0]);
+  
+ASSIGN
+  --
+  -- Initially, all chopsticks are free
+  --
+  init(chopsticks[0]) := nobody;
+  init(chopsticks[1]) := nobody;
+  init(chopsticks[2]) := nobody;
+  init(chopsticks[3]) := nobody;
+  init(chopsticks[4]) := nobody;
+
+-- add specifications here 
+
+-- safety:
+SPEC AG!(p1.state = eating & p2.state = eating)
+SPEC AG!(p2.state = eating & p3.state = eating)
+SPEC AG!(p3.state = eating & p4.state = eating)
+SPEC AG!(p4.state = eating & p0.state = eating)
+SPEC AG!(p0.state = eating & p1.state = eating)
+-- liveness
+SPEC AG(p0.state = hungry -> AF(p0.state = eating))
+SPEC AG(p1.state = hungry -> AF(p1.state = eating))
+SPEC AG(p2.state = hungry -> AF(p2.state = eating))
+SPEC AG(p3.state = hungry -> AF(p3.state = eating))
+SPEC AG(p4.state = hungry -> AF(p4.state = eating))
+-- non-blocking
+SPEC AG(p0.state = thinking -> EX(p0.state = hungry))
+SPEC AG(p1.state = thinking -> EX(p1.state = hungry))
+SPEC AG(p2.state = thinking -> EX(p2.state = hungry))
+SPEC AG(p3.state = thinking -> EX(p3.state = hungry))
+SPEC AG(p4.state = thinking -> EX(p4.state = hungry))
+-- no strict sequencing
+SPEC EF(p0.eating & E(p0.eating U(!p0.eating & E(!p1.eating U(p0.eating)))))
+
+    
+MODULE philosopher(i,left,right)
+  
+VAR
+  state : {thinking, hungry, eating, done};
+  
+DEFINE
+  --
+  -- These are just abbreviations, not state variables
+  --
+  gotleft := (left=i);
+  gotright := (right=i);
+  leftfree := (left=nobody);
+  rightfree := (right=nobody);
+    
+ASSIGN
+  init(state) := thinking;
+
+  next(left)  := case
+    (state = done) : nobody; -- drop chopstick
+    (!rightfree & !gotright) : nobody
+    --
+    -- if hungry and left chopstick if free, take it
+    --
+    (state=hungry) & leftfree & (rightfree | gotright) : i;
+    TRUE : left;
+  esac;
+
+  next(right) := case
+    (state = done) : nobody; -- drop chopstick
+    (!leftfree & !gotleft) : nobody
+    --
+    -- if hungry and have left chopstick and right is free, take it
+    --
+    (state=hungry) & (leftfree | gotleft) & rightfree : i; 
+    TRUE : right;
+  esac;
+
+  next(state) := case
+    (state=thinking) : {thinking, hungry};
+    (state=hungry) & gotleft & gotright : eating;
+    (state=hungry) : hungry; -- don't have chopsticks
+    (state=eating) : {eating, done};
+    (state=done) : thinking;
+    TRUE : state;
+  esac;
+
+-- add fairness constraints here
+FAIRNESS (running & leftfree & rightfree)
+FAIRNESS !(state = eating)
+
