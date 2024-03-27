@@ -73,7 +73,7 @@ ASSIGN
     --
     -- if hungry and left chopstick if free, take it
     --
-    (state=hungry) & leftfree : i;
+    (state=hungry) & leftfree & (rightfree | gotright) : i;
     TRUE : left;
   esac;
 
@@ -82,7 +82,7 @@ ASSIGN
     --
     -- if hungry and have left chopstick and right is free, take it
     --
-    (state=hungry) & gotleft & rightfree : i; 
+    (state=hungry) & (leftfree | gotleft) & rightfree : i; 
     TRUE : right;
   esac;
 
