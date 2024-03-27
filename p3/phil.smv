@@ -34,6 +34,12 @@ ASSIGN
   init(chopsticks[2]) := nobody;
   init(chopsticks[3]) := nobody;
   init(chopsticks[4]) := nobody;
+
+-- add specifications here 
+
+-- safety:
+SPEC!(p1.state = eating & p2.state = eating)
+-- liveness
     
 MODULE philosopher(i,left,right)
   
@@ -82,9 +88,3 @@ ASSIGN
 -- add fairness constraints here
 FAIRNESS running
 FAIRNESS !(state = eating)
-
--- add specifications here 
-
--- safety:
-SPEC AG(p4.state = eating)
--- liveness
