@@ -56,6 +56,10 @@ SPEC AG(p3.state = thinking -> EX(p3.state = hungry))
 SPEC AG(p4.state = thinking -> EX(p4.state = hungry))
 -- no strict sequencing
 SPEC EF(p0.eating & E(p0.eating U(!p0.eating & E(!p1.eating U(p0.eating)))))
+SPEC EF(p1.eating & E(p1.eating U(!p1.eating & E(!p2.eating U(p1.eating)))))
+SPEC EF(p2.eating & E(p2.eating U(!p2.eating & E(!p3.eating U(p2.eating)))))
+SPEC EF(p3.eating & E(p3.eating U(!p3.eating & E(!p4.eating U(p3.eating)))))
+SPEC EF(p4.eating & E(p4.eating U(!p4.eating & E(!p0.eating U(p4.eating)))))
 
     
 MODULE philosopher(i,left,right)
