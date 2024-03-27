@@ -1,5 +1,5 @@
 --
--- CSC 322 Project 3 Extended
+-- CSC 322 Project 3
 --
 -- Name: Alexander Lambert 
 -- Vnum: V00956639
@@ -9,6 +9,7 @@
 --
 -- Name: Nima Mohajeri 
 -- Vnum: V00857216
+--
 --
 MODULE main
   
@@ -37,17 +38,17 @@ ASSIGN
 -- add specifications here 
 
 -- safety:
-SPEC AG!(p1.state = eating & p2.state = eating)
-SPEC AG!(p2.state = eating & p3.state = eating)
-SPEC AG!(p3.state = eating & p4.state = eating)
-SPEC AG!(p4.state = eating & p0.state = eating)
-SPEC AG!(p0.state = eating & p1.state = eating)
+SPEC AG!(p1.state = eating & p2.state = eating) -- chopstick 2 can only be used by one philosopher at a time
+SPEC AG!(p2.state = eating & p3.state = eating) -- chopstick 3 can only be used by one philosopher at a time
+SPEC AG!(p3.state = eating & p4.state = eating) -- chopstick 4 can only be used by one philosopher at a time
+SPEC AG!(p4.state = eating & p0.state = eating) -- chopstick 0 can only be used by one philosopher at a time
+SPEC AG!(p0.state = eating & p1.state = eating) -- chopstick 1 can only be used by one philosopher at a time
 -- liveness
-SPEC AG(p0.state = hungry -> AF(p0.state = eating))
-SPEC AG(p1.state = hungry -> AF(p1.state = eating))
-SPEC AG(p2.state = hungry -> AF(p2.state = eating))
-SPEC AG(p3.state = hungry -> AF(p3.state = eating))
-SPEC AG(p4.state = hungry -> AF(p4.state = eating))
+SPEC AG(p0.state = hungry -> AF(p0.state = eating)) -- philosopher 0 can eat eventually, if desired
+SPEC AG(p1.state = hungry -> AF(p1.state = eating)) -- philosopher 1 can eat eventually, if desired
+SPEC AG(p2.state = hungry -> AF(p2.state = eating)) -- philosopher 2 can eat eventually, if desired
+SPEC AG(p3.state = hungry -> AF(p3.state = eating)) -- philosopher 3 can eat eventually, if desired
+SPEC AG(p4.state = hungry -> AF(p4.state = eating)) -- philosopher 4 can eat eventually, if desired
 -- non-blocking
 -- SPEC AG(p0.state = thinking -> EX(p0.state = hungry))
 -- SPEC AG(p1.state = thinking -> EX(p1.state = hungry))
@@ -82,21 +83,19 @@ ASSIGN
 
   next(left)  := case
     (state = done) : nobody; -- drop chopstick
-    (!rightfree & !gotright) : nobody
     --
-    -- if hungry and left chopstick if free, take it
+    -- if hungry and both chopsticks are free, take left chopstick
     --
-    (state=hungry) & leftfree & (rightfree | gotright) : i;
+    ((state=hungry) & leftfree & (rightfree | gotright)) : i;
     TRUE : left;
   esac;
 
   next(right) := case
     (state = done) : nobody; -- drop chopstick
-    (!leftfree & !gotleft) : nobody
     --
-    -- if hungry and have left chopstick and right is free, take it
+    -- if hungry and both chopsticks are free, take right chopstick
     --
-    (state=hungry) & (leftfree | gotleft) & rightfree : i; 
+    ((state=hungry) & (leftfree | gotleft) & rightfree) : i; 
     TRUE : right;
   esac;
 
@@ -110,8 +109,5 @@ ASSIGN
   esac;
 
 -- add fairness constraints here
-FAIRNESS (running & leftfree & rightfree)
-FAIRNESS !(state = eating)
-
--- 
--- SPEC EF(p0.state = eating & EG(A[p0.state = eating U ((!p0.state = eating) & EG(A[(!p1.state = eating) U (p0.state = eating)]))]))
+FAIRNESS (running & leftfree & rightfree) -- every philosopher must get opportunities where eating is possible
+FAIRNESS !(state = eating) -- every philosopher must think sometimes
