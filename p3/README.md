@@ -8,7 +8,29 @@
 
 ## This submission contains the following files:
 
-- phil.smv
-- phil.extended.smv
-- README.md
-- solution.pdf
+- `phil.smv`
+- `phil.extended.smv`
+- `README.md`
+- `solution.pdf`
+
+<br/>
+
+<details><summary>How to run `phil.smv`.</summary>
+
+#### To use `phil.smv`, run this cli command:
+```
+NuSMV phil.smv
+```
+
+</details>
+
+
+
+<details><summary>How to run `phil.extended.smv`.</summary>
+
+#### To use `phil.extended.smv`, run this cli command:
+```
+NuSMV phil.extended.smv
+```
+
+</details>
