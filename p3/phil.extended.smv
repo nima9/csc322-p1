@@ -114,4 +114,4 @@ FAIRNESS (running & leftfree & rightfree)
 FAIRNESS !(state = eating)
 
 -- 
-SPEC EF(p0.state = eating & EG(A[p0.state = eating U ((!p0.state = eating) & EG(A[(!p1.state = eating) U (p0.state = eating)]))]))
+-- SPEC EF(p0.state = eating & EG(A[p0.state = eating U ((!p0.state = eating) & EG(A[(!p1.state = eating) U (p0.state = eating)]))]))
