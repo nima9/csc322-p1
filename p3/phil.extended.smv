@@ -55,7 +55,7 @@ SPEC AG(p2.state = thinking -> EX(p2.state = hungry))
 SPEC AG(p3.state = thinking -> EX(p3.state = hungry))
 SPEC AG(p4.state = thinking -> EX(p4.state = hungry))
 -- no strict sequencing
-SPEC EF(p0.state = eating & E[(p0.state = eating U (!p0.state = eating & E[(!p1.state = eating U p0.state = eating)]))])
+SPEC EF(p0.state = eating & E[(p0.state = eating U ((!p0.state = eating) & E[(!p1.state = eating U (p0.state = eating))]))])
 --SPEC EF(p1.state = eating & E(p1.state = eating U(!p1.state = eating & E(!p2.state = eating U(p1.state = eating)))))
 --SPEC EF(p2.state = eating & E(p2.state = eating U(!p2.state = eating & E(!p3.state = eating U(p2.state = eating)))))
 --SPEC EF(p3.state = eating & E(p3.state = eating U(!p3.state = eating & E(!p4.state = eating U(p3.state = eating)))))
