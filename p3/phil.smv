@@ -38,7 +38,7 @@ ASSIGN
 -- add specifications here 
 
 -- safety:
-SPEC!(p1.state = eating & p2.state = eating)
+SPEC AG!(p1.state = eating & p2.state = eating)
 -- liveness
     
 MODULE philosopher(i,left,right)
