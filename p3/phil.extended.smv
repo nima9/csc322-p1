@@ -50,18 +50,18 @@ SPEC AG(p2.state = hungry -> AF(p2.state = eating)) -- philosopher 2 can eat eve
 SPEC AG(p3.state = hungry -> AF(p3.state = eating)) -- philosopher 3 can eat eventually, if desired
 SPEC AG(p4.state = hungry -> AF(p4.state = eating)) -- philosopher 4 can eat eventually, if desired
 -- non-blocking
--- SPEC AG(p0.state = thinking -> EX(p0.state = hungry))
--- SPEC AG(p1.state = thinking -> EX(p1.state = hungry))
--- SPEC AG(p2.state = thinking -> EX(p2.state = hungry))
--- SPEC AG(p3.state = thinking -> EX(p3.state = hungry))
--- SPEC AG(p4.state = thinking -> EX(p4.state = hungry))
+SPEC AG(p0.state = thinking -> EX(p0.state = hungry))
+SPEC AG(p1.state = thinking -> EX(p1.state = hungry))
+SPEC AG(p2.state = thinking -> EX(p2.state = hungry))
+SPEC AG(p3.state = thinking -> EX(p3.state = hungry))
+SPEC AG(p4.state = thinking -> EX(p4.state = hungry))
 -- no strict sequencing
---SPEC EF(p0.state = eating & EG(A[p0.state = eating U ((!p0.state = eating) & EG(A[(!p1.state = eating) U (p0.state = eating)]))]))
---SPEC EF(p0.state = eating & E[(p0.state = eating U ((!p0.state = eating) & E[(!p1.state = eating U (p0.state = eating))]))])
---SPEC EF(p1.state = eating & E(p1.state = eating U(!p1.state = eating & E(!p2.state = eating U(p1.state = eating)))))
---SPEC EF(p2.state = eating & E(p2.state = eating U(!p2.state = eating & E(!p3.state = eating U(p2.state = eating)))))
---SPEC EF(p3.state = eating & E(p3.state = eating U(!p3.state = eating & E(!p4.state = eating U(p3.state = eating)))))
---SPEC EF(p4.state = eating & E(p4.state = eating U(!p4.state = eating & E(!p0.state = eating U(p4.state = eating)))))
+SPEC EF(p0.state = eating & EG(A[p0.state = eating U ((!p0.state = eating) & EG(A[(!p1.state = eating) U (p0.state = eating)]))]))
+-- SPEC EF(p0.state = eating & E[(p0.state = eating U ((!p0.state = eating) & E[(!p1.state = eating U (p0.state = eating))]))])
+-- SPEC EF(p1.state = eating & E(p1.state = eating U(!p1.state = eating & E(!p2.state = eating U(p1.state = eating)))))
+-- SPEC EF(p2.state = eating & E(p2.state = eating U(!p2.state = eating & E(!p3.state = eating U(p2.state = eating)))))
+-- SPEC EF(p3.state = eating & E(p3.state = eating U(!p3.state = eating & E(!p4.state = eating U(p3.state = eating)))))
+-- SPEC EF(p4.state = eating & E(p4.state = eating U(!p4.state = eating & E(!p0.state = eating U(p4.state = eating)))))
 
     
 MODULE philosopher(i,left,right)
