@@ -14,18 +14,20 @@
 MODULE main
   
 VAR
+  sushi : {0,1,2,3,4} -- who is allowed to be holding chopsticks
   chopsticks : array 0..4 of {nobody,0,1,2,3,4}; -- who holds the chopstick.
   --
   -- Philosopher i has chopstick i on left and chopstick
   -- (i + 1) mod 5 on right
   --
-  p0 : process philosopher(0,chopsticks[0],chopsticks[1]);
-  p1 : process philosopher(1,chopsticks[1],chopsticks[2]);
-  p2 : process philosopher(2,chopsticks[2],chopsticks[3]);
-  p3 : process philosopher(3,chopsticks[3],chopsticks[4]);
-  p4 : process philosopher(4,chopsticks[4],chopsticks[0]);
+  p0 : process philosopher(0,chopsticks[0],chopsticks[1],sushi);
+  p1 : process philosopher(1,chopsticks[1],chopsticks[2],sushi);
+  p2 : process philosopher(2,chopsticks[2],chopsticks[3],sushi);
+  p3 : process philosopher(3,chopsticks[3],chopsticks[4],sushi);
+  p4 : process philosopher(4,chopsticks[4],chopsticks[0],sushi);
   
 ASSIGN
+  init(sushi) := 0; -- the first philosopher to be polled is p0
   --
   -- Initially, all chopsticks are free
   --
@@ -51,7 +53,7 @@ SPEC AG(p3.state = hungry -> AF(p3.state = eating)) -- philosopher 3 can eat eve
 SPEC AG(p4.state = hungry -> AF(p4.state = eating)) -- philosopher 4 can eat eventually, if desired
 
     
-MODULE philosopher(i,left,right)
+MODULE philosopher(i,left,right,sushi)
   
 VAR
   state : {thinking, hungry, eating, done};
@@ -64,6 +66,7 @@ DEFINE
   gotright := (right=i);
   leftfree := (left=nobody);
   rightfree := (right=nobody);
+  polled := (sushi=i); 
     
 ASSIGN
   init(state) := thinking;
@@ -71,18 +74,18 @@ ASSIGN
   next(left)  := case
     (state = done) : nobody; -- drop chopstick
     --
-    -- if hungry and both chopsticks are free, take left chopstick
+    -- if hungry and allowed to eat, take left chopstick
     --
-    ((state=hungry) & leftfree & (rightfree | gotright)) : i;
+    ((state=hungry) & leftfree & (rightfree | gotright) & polled) : i;
     TRUE : left;
   esac;
 
   next(right) := case
     (state = done) : nobody; -- drop chopstick
     --
-    -- if hungry and both chopsticks are free, take right chopstick
+    -- if hungry and allowed to eat, take right chopstick
     --
-    ((state=hungry) & (leftfree | gotleft) & rightfree) : i; 
+    ((state=hungry) & (leftfree | gotleft) & rightfree & polled) : i; 
     TRUE : right;
   esac;
 
@@ -95,6 +98,11 @@ ASSIGN
     TRUE : state;
   esac;
 
+  next(sushi) := case
+  -- if the philosopher doesn't eat, they must pass the sushi to the next philosopher
+    (state=eating | state=hungry) : sushi
+    TRUE : (sushi+1) % 5
+
 -- add fairness constraints here
-FAIRNESS (running & leftfree & rightfree) -- every philosopher must get opportunities where eating is possible
+FAIRNESS (running & priority & leftfree & rightfree) -- every philosopher must get opportunities where eating is possible
 FAIRNESS !(state = eating) -- every philosopher must think sometimes
