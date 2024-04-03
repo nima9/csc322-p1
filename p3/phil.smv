@@ -14,7 +14,7 @@
 MODULE main
   
 VAR
-  sushi : {0,1,2,3,4} -- who is allowed to be holding chopsticks
+  sushi : {0,1,2,3,4}; -- who is allowed to be holding chopsticks
   chopsticks : array 0..4 of {nobody,0,1,2,3,4}; -- who holds the chopstick.
   --
   -- Philosopher i has chopstick i on left and chopstick
@@ -100,8 +100,9 @@ ASSIGN
 
   next(sushi) := case
   -- if the philosopher doesn't eat, they must pass the sushi to the next philosopher
-    (state=eating | state=hungry) : sushi
-    TRUE : (sushi+1) % 5
+    (state=eating | state=hungry) : sushi;
+    TRUE : (sushi+1) mod 5;
+  esac;
 
 -- add fairness constraints here
 FAIRNESS (running & priority & leftfree & rightfree) -- every philosopher must get opportunities where eating is possible
