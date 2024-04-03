@@ -105,5 +105,5 @@ ASSIGN
   esac;
 
 -- add fairness constraints here
-FAIRNESS (running & priority & leftfree & rightfree) -- every philosopher must get opportunities where eating is possible
+FAIRNESS (running & polled & leftfree & rightfree) -- every philosopher must get opportunities where eating is possible
 FAIRNESS !(state = eating) -- every philosopher must think sometimes
