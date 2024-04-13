@@ -100,8 +100,9 @@ ASSIGN
 
   next(sushi) := case
   -- if the philosopher doesn't eat, they must pass the sushi to the next philosopher
-    (state=eating | state=hungry) : sushi;
-    TRUE : (sushi+1) mod 5;
+    (sushi=i & (state=eating | state=hungry)) : sushi;
+    sushi=i : (sushi+1) mod 5;
+    TRUE : sushi
   esac;
 
 -- add fairness constraints here
