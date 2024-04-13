@@ -37,7 +37,7 @@ ASSIGN
   init(chopsticks[3]) := nobody;
   init(chopsticks[4]) := nobody;
 
--- add specifications here 
+-- more specifications
 
 -- safety:
 SPEC AG!(p1.state = eating & p2.state = eating) -- chopstick 2 can only be used by one philosopher at a time
@@ -85,7 +85,7 @@ ASSIGN
     --
     -- if hungry and allowed to eat, take right chopstick
     --
-    ((state=hungry) & (leftfree | gotleft) & rightfree & polled) : i; 
+    ((state=hungry) & gotleft & rightfree & polled) : i; 
     TRUE : right;
   esac;
 
@@ -105,5 +105,13 @@ ASSIGN
   esac;
 
 -- add fairness constraints here
-FAIRNESS (running & polled & leftfree & rightfree) -- every philosopher must get opportunities where eating is possible
+FAIRNESS (running) -- every philosopher must get opportunities where eating is possible
 FAIRNESS !(state = eating) -- every philosopher must think sometimes
+
+-- add specifications here 
+
+-- safety
+SPEC AG ((state = eating) -> (gotleft)&(gotright))
+
+-- liveness
+SPEC AG ((state = hungry) -> AF (state = eating))

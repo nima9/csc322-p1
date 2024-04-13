@@ -35,7 +35,7 @@ ASSIGN
   init(chopsticks[3]) := nobody;
   init(chopsticks[4]) := nobody;
 
--- add specifications here 
+-- global specifications
 
 -- safety:
 SPEC AG!(p1.state = eating & p2.state = eating) -- chopstick 2 can only be used by one philosopher at a time
@@ -51,7 +51,6 @@ SPEC AG(p3.state = hungry -> AF(p3.state = eating)) -- philosopher 3 can eat eve
 SPEC AG(p4.state = hungry -> AF(p4.state = eating)) -- philosopher 4 can eat eventually, if desired
 
 
-
 -- non-blocking 
 SPEC AG(p0.state = thinking -> EX(p0.state = hungry)) -- philosopher 0 can always request to eat (can always get hungry)
 SPEC AG(p1.state = thinking -> EX(p1.state = hungry)) -- philosopher 1 can always request to eat (can always get hungry)
@@ -62,7 +61,7 @@ SPEC AG(p4.state = thinking -> EX(p4.state = hungry)) -- philosopher 4 can alway
 
 -- no strict sequencing (meaning no philosopher can eat before another philosopher has had a chance to eat)
 -- philosopher 0 can eat before philosopher 1, 2, 3, 4
-SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p1.state = eating) U p0.state = eating ]))])) -- philosopher 0 can eat before philosopher 1
+SPEC EF (p0.state = eating & E [ p0.state = eating U (!(p0.state = eating) & E [ !(p1.state = eating) U p0.state = eating ]))])) -- philosopher 0 can eat before philosopher 1
 SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p2.state = eating) U p0.state = eating ]))])) -- philosopher 0 can eat before philosopher 2
 SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p3.state = eating) U p0.state = eating ]))])) -- philosopher 0 can eat before philosopher 3
 SPEC EF (p0.state = eating & EF (A [ p0.state = eating U (!(p0.state = eating) & EF (A [ !(p4.state = eating) U p0.state = eating ]))]))
@@ -90,6 +89,14 @@ SPEC EF (p4.state = eating & EF (A [ p4.state = eating U (!(p4.state = eating) &
 SPEC EF (p4.state = eating & EF (A [ p4.state = eating U (!(p4.state = eating) & EF (A [ !(p1.state = eating) U p4.state = eating ]))]))
 SPEC EF (p4.state = eating & EF (A [ p4.state = eating U (!(p4.state = eating) & EF (A [ !(p2.state = eating) U p4.state = eating ]))]))
 SPEC EF (p4.state = eating & EF (A [ p4.state = eating U (!(p4.state = eating) & EF (A [ !(p3.state = eating) U p4.state = eating ]))]))
+
+
+-- concurrent eating
+SPEC EF (p0.state=eating & p2.state=eating) -- p0 and p2 can eat simultaneously
+SPEC EF (p1.state=eating & p3.state=eating) -- p1 and p3 can eat simultaneously
+SPEC EF (p2.state=eating & p4.state=eating) -- p2 and p4 can eat simultaneously
+SPEC EF (p3.state=eating & p0.state=eating) -- p3 and p0 can eat simultaneously
+SPEC EF (p4.state=eating & p1.state=eating) -- p4 and p1 can eat simultaneously
 
 
     
@@ -140,3 +147,11 @@ ASSIGN
 -- add fairness constraints here
 FAIRNESS (running & leftfree & rightfree) -- every philosopher must get opportunities where eating is possible
 FAIRNESS !(state = eating) -- every philosopher must think sometimes
+
+-- add specifications here 
+
+-- safety
+SPEC AG ((state = eating) -> (gotleft)&(gotright))
+
+-- liveness
+SPEC AG ((state = hungry) -> AF (state = eating))
