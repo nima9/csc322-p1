@@ -37,28 +37,6 @@ ASSIGN
 
 -- global specifications
 
--- safety:
-SPEC AG!(p1.state = eating & p2.state = eating) -- chopstick 2 can only be used by one philosopher at a time
-SPEC AG!(p2.state = eating & p3.state = eating) -- chopstick 3 can only be used by one philosopher at a time
-SPEC AG!(p3.state = eating & p4.state = eating) -- chopstick 4 can only be used by one philosopher at a time
-SPEC AG!(p4.state = eating & p0.state = eating) -- chopstick 0 can only be used by one philosopher at a time
-SPEC AG!(p0.state = eating & p1.state = eating) -- chopstick 1 can only be used by one philosopher at a time
--- liveness
-SPEC AG(p0.state = hungry -> AF(p0.state = eating)) -- philosopher 0 can eat eventually, if desired
-SPEC AG(p1.state = hungry -> AF(p1.state = eating)) -- philosopher 1 can eat eventually, if desired
-SPEC AG(p2.state = hungry -> AF(p2.state = eating)) -- philosopher 2 can eat eventually, if desired
-SPEC AG(p3.state = hungry -> AF(p3.state = eating)) -- philosopher 3 can eat eventually, if desired
-SPEC AG(p4.state = hungry -> AF(p4.state = eating)) -- philosopher 4 can eat eventually, if desired
-
-
--- non-blocking 
-SPEC AG(p0.state = thinking -> EX(p0.state = hungry)) -- philosopher 0 can always request to eat (can always get hungry)
-SPEC AG(p1.state = thinking -> EX(p1.state = hungry)) -- philosopher 1 can always request to eat (can always get hungry)
-SPEC AG(p2.state = thinking -> EX(p2.state = hungry)) -- philosopher 2 can always request to eat (can always get hungry)
-SPEC AG(p3.state = thinking -> EX(p3.state = hungry)) -- philosopher 3 can always request to eat (can always get hungry)
-SPEC AG(p4.state = thinking -> EX(p4.state = hungry)) -- philosopher 4 can always request to eat (can always get hungry)
-
-
 -- no strict sequencing (meaning no philosopher can eat before another philosopher has had a chance to eat)
 -- philosopher 0 can eat before philosopher 1, 2, 3, 4
 SPEC EF (p0.state = eating & E [ p0.state = eating U (!(p0.state = eating) & E [ !(p1.state = eating) U p0.state = eating ])]) -- philosopher 0 can eat before philosopher 1

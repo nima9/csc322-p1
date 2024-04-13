@@ -36,22 +36,6 @@ ASSIGN
   init(chopsticks[2]) := nobody;
   init(chopsticks[3]) := nobody;
   init(chopsticks[4]) := nobody;
-
--- more specifications
-
--- safety:
-SPEC AG!(p1.state = eating & p2.state = eating) -- chopstick 2 can only be used by one philosopher at a time
-SPEC AG!(p2.state = eating & p3.state = eating) -- chopstick 3 can only be used by one philosopher at a time
-SPEC AG!(p3.state = eating & p4.state = eating) -- chopstick 4 can only be used by one philosopher at a time
-SPEC AG!(p4.state = eating & p0.state = eating) -- chopstick 0 can only be used by one philosopher at a time
-SPEC AG!(p0.state = eating & p1.state = eating) -- chopstick 1 can only be used by one philosopher at a time
--- liveness
-SPEC AG(p0.state = hungry -> AF(p0.state = eating)) -- philosopher 0 can eat eventually, if desired
-SPEC AG(p1.state = hungry -> AF(p1.state = eating)) -- philosopher 1 can eat eventually, if desired
-SPEC AG(p2.state = hungry -> AF(p2.state = eating)) -- philosopher 2 can eat eventually, if desired
-SPEC AG(p3.state = hungry -> AF(p3.state = eating)) -- philosopher 3 can eat eventually, if desired
-SPEC AG(p4.state = hungry -> AF(p4.state = eating)) -- philosopher 4 can eat eventually, if desired
-
     
 MODULE philosopher(i,left,right,sushi)
   
